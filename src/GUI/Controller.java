@@ -7,7 +7,7 @@ import java.awt.event.WindowEvent;
 public class Controller {
     public void execute(View mainView){
         mainView.addWindowListener(new WindowAdapter() {
-            @Override
+            /*@Override
             public void windowClosing(WindowEvent e) {
                 Object[] options = {"Yes", "No"};
                 int confirm = JOptionPane.showOptionDialog(mainView,"Close and exit?","Exit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, null);
@@ -15,7 +15,7 @@ public class Controller {
                     System.exit(0);
                     mainView.dispose();
                 }
-            }
+            }*/
         });
     }
 }
