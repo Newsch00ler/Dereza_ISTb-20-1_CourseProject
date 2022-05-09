@@ -10,6 +10,16 @@ public class View extends JFrame {
     private JScrollPane scrollPane;
 
     private JMenuBar menuBar;
+    private JMenu menuEdit;
+    private JMenuItem addEditItem;
+    private JMenuItem deleteEditItem;
+    //private JMenu menu...;
+    private JMenu menuMode;
+    private JMenuItem editModeItem;
+    private JMenuItem viewModeItem;
+    private JMenu menuHelp;
+    private JMenuItem helpInfo;
+    private JMenuItem infoAboutProg;
     private JPanel panelTop;
     private JPanel panelCenter;
     private JPanel panelBottom;
@@ -31,6 +41,31 @@ public class View extends JFrame {
         setIconImage(new ImageIcon(Objects.requireNonNull(classloader.getResource("Icon.png"))).getImage());
         /*background = new JLabel(new ImageIcon(Objects.requireNonNull(classloader.getResource("Background.jpg"))));
         add(background);*/
+
+        menuBar = new JMenuBar();
+        menuEdit = new JMenu("Edit");
+        addEditItem = new JMenuItem("Add player");
+        deleteEditItem = new JMenuItem("Delete player");
+        menuEdit.add(addEditItem);
+        menuEdit.add(deleteEditItem);
+        menuBar.add(menuEdit);
+
+        menuMode = new JMenu("Mode");
+        editModeItem = new JMenuItem("Edit mode");
+        viewModeItem = new JMenuItem("View mode");
+        menuMode.add(editModeItem);
+        menuMode.add(viewModeItem);
+        menuBar.add(menuMode);
+
+        menuHelp = new JMenu("Help");
+        helpInfo = new JMenuItem("Help information");
+        infoAboutProg = new JMenuItem("Information about programm");
+        menuHelp.add(helpInfo);
+        menuHelp.add(infoAboutProg);
+        menuBar.add(menuHelp);
+
+        menuBar.add(Box.createHorizontalGlue());
+        setJMenuBar(menuBar);
 
         playersTable = new JTable();
         scrollPane = new JScrollPane(playersTable);
