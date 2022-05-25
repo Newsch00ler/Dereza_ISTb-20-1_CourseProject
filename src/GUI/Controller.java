@@ -4,12 +4,59 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.TableRowSorter;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.regex.PatternSyntaxException;
 
 public class Controller {
+    private boolean addClickFlag = false;
+
+    public Controller(){    }
+
     public void execute(View mainView){
+        mainView.getButtonAdd().setEnabled(false);
+        mainView.setAllTFEnabled(false);
+        mainView.getEditModeItem().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                Controller.this.addClickFlag = true;
+                mainView.getLabelHeader().setText("Add");
+                mainView.getButtonAdd().setEnabled(true);
+                mainView.setAllTFEnabled(true);
+            }
+        });
+        mainView.getViewModeItem().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                Controller.this.addClickFlag = false;
+                mainView.getLabelHeader().setText("Statistics");
+                mainView.getButtonAdd().setEnabled(false);
+                mainView.setAllTFEnabled(false);
+            }
+        });
+        mainView.getFootballItem().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                mainView.setAllTFEnabled(true);
+                mainView.setFootballEnabled(false);
+            }
+        });
+        mainView.getHockeyItem().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                mainView.setAllTFEnabled(true);
+                mainView.setHockeyEnabled(false);
+            }
+        });
+        mainView.getBasketItem().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                mainView.setAllTFEnabled(true);
+                mainView.setBasketEnabled(false);
+            }
+        });
         mainView.addWindowListener(new WindowAdapter() {
             /*@Override
             public void windowClosing(WindowEvent e) {
@@ -127,13 +174,13 @@ public class Controller {
                 }
             }
         });*/
-        /*mainView.getFindTextField().getDocument().addDocumentListener(new DocumentListener() {
+        /*mainView.getTextFieldFind().getDocument().addDocumentListener(new DocumentListener() {
             private void newFilter(){
                 TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(mainView.getTableModel());
                 mainView.getPlayersTable().setRowSorter(sorter);
                 RowFilter<TableModel, Object>plr = null;
                 try {
-                    plr = RowFilter.regexFilter(mainView.getFindTextField().getText());
+                    plr = RowFilter.regexFilter(mainView.getTextFieldFind().getText());
                 }
                 catch (PatternSyntaxException e) {
                     return;

@@ -111,11 +111,11 @@ public class View extends JFrame {
 
         contCenter = new Container();
         contCenter.setLayout(new BoxLayout(contCenter,BoxLayout.PAGE_AXIS));
-        playersTable = new JTable();
+        playersTable = new JTable(new TableModel());
         scrollPane = new JScrollPane(playersTable);
         contCenter.add(scrollPane);
 
-        labelHeader = new JLabel("Add");
+        labelHeader = new JLabel("Statistics");
         labelName = new JLabel("Name");
         labelSurname = new JLabel("Surname");
         labelRole = new JLabel("Role");
@@ -327,5 +327,69 @@ public class View extends JFrame {
 
     public JMenuItem getInfoAboutProg() {
         return infoAboutProg;
+    }
+
+    public void setFootballEnabled(boolean b) {
+        labelStickGrip.setEnabled(b);
+        textFieldStickGrip.setEnabled(b);
+        labelPenaltyTime.setEnabled(b);
+        textFieldPenaltyTime.setEnabled(b);
+        labelPenaltyCount.setEnabled(b);
+        textFieldPenaltyCount.setEnabled(b);
+    }
+
+    public void setHockeyEnabled(boolean b) {
+        labelYC.setEnabled(b);
+        textFieldYC.setEnabled(b);
+        labelRC.setEnabled(b);
+        textFieldRC.setEnabled(b);
+        labelPsPerc.setEnabled(b);
+        textFieldPsPerc.setEnabled(b);
+    }
+
+    public void setBasketEnabled(boolean b) {
+        labelYC.setEnabled(b);
+        textFieldYC.setEnabled(b);
+        labelRC.setEnabled(b);
+        textFieldRC.setEnabled(b);
+        labelPsPerc.setEnabled(b);
+        textFieldPsPerc.setEnabled(b);
+        labelStickGrip.setEnabled(b);
+        textFieldStickGrip.setEnabled(b);
+        labelPenaltyTime.setEnabled(b);
+        textFieldPenaltyTime.setEnabled(b);
+        labelPenaltyCount.setEnabled(b);
+        textFieldPenaltyCount.setEnabled(b);
+    }
+
+    public void setAllTFEnabled(boolean b) {
+        //labelName.setEnabled(b);
+        textFieldName.setEnabled(b);
+        //labelSurname.setEnabled(b);
+        textFieldSurname.setEnabled(b);
+        //labelRole.setEnabled(b);
+        textFieldRole.setEnabled(b);
+        //labelNumber.setEnabled(b);
+        textFieldNumber.setEnabled(b);
+        //labelTeam.setEnabled(b);
+        textFieldTeam.setEnabled(b);
+        //labelMins.setEnabled(b);
+        textFieldMins.setEnabled(b);
+        //labelGoals.setEnabled(b);
+        textFieldGoals.setEnabled(b);
+        //labelAssists.setEnabled(b);
+        textFieldAssists.setEnabled(b);
+        //labelYC.setEnabled(b);
+        textFieldYC.setEnabled(b);
+        //labelRC.setEnabled(b);
+        textFieldRC.setEnabled(b);
+        //labelPsPerc.setEnabled(b);
+        textFieldPsPerc.setEnabled(b);
+        //labelStickGrip.setEnabled(b);
+        textFieldStickGrip.setEnabled(b);
+        //labelPenaltyTime.setEnabled(b);
+        textFieldPenaltyTime.setEnabled(b);
+        //labelPenaltyCount.setEnabled(b);
+        textFieldPenaltyCount.setEnabled(b);
     }
 }
