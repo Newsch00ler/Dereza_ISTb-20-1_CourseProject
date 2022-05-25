@@ -4,11 +4,17 @@ public abstract class Player {
     protected String surname;
     protected String name;
     protected int number;
+    protected int mins;
+    protected int goals;
+    protected int assists;
 
-    public Player(String surname, String name, int number){
+    public Player(String name, String surname, int number, int mins, int goals, int assists){
         this.surname = surname;
         this.name = name;
         this.number = number;
+        this.mins = mins;
+        this.goals = goals;
+        this.assists =assists;
     }
 
     public String getSurname(){
@@ -23,6 +29,18 @@ public abstract class Player {
         return number;
     }
 
+    public int getMins() {
+        return mins;
+    }
+
+    public int getGoals() {
+        return goals;
+    }
+
+    public int getAssists() {
+        return assists;
+    }
+
     public void setSurname(String surname) {
         this.surname = surname;
     }
@@ -33,5 +51,17 @@ public abstract class Player {
 
     public void setNumber(int number) {
         this.number = number;
+    }
+
+    public void setMins(int mins) {
+        this.mins = mins;
+    }
+
+    public void setGoals(int goals) {
+        this.goals = goals;
+    }
+
+    public void setAssists(int assists) {
+        this.assists = assists;
     }
 }
