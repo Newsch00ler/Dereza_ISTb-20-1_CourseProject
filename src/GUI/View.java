@@ -1,6 +1,8 @@
 package GUI;
 
 import javax.swing.*;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.net.URL;
 import java.util.Objects;
@@ -111,7 +113,37 @@ public class View extends JFrame {
 
         contCenter = new Container();
         contCenter.setLayout(new BoxLayout(contCenter,BoxLayout.PAGE_AXIS));
-        playersTable = new JTable(new TableModel());
+        playersTable = new JTable(new TableModel())/*{
+            @Override
+            public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
+                Component component = super.prepareRenderer(renderer, row, column);
+
+                TableColumn tableColumn = getColumnModel().getColumn(column);
+                switch(column){
+                    case 0:
+                        tableColumn.setMinWidth(110);
+                        tableColumn.setMaxWidth(110);
+                        break;
+                    case 1:
+                        tableColumn.setMinWidth(50);
+                        break;
+                    case 2:
+                        tableColumn.setMinWidth(50);
+                        break;
+                    case 3:
+                        tableColumn.setMinWidth(70);
+                        break;
+                    case 4:
+                        tableColumn.setMinWidth(160);
+                        break;
+                    case 5:
+                        tableColumn.setMinWidth(160);
+                        break;
+                }
+                return component;
+            }
+
+        }*/;
         scrollPane = new JScrollPane(playersTable);
         contCenter.add(scrollPane);
 
@@ -199,8 +231,6 @@ public class View extends JFrame {
         buttonAdd.setAlignmentX(0.5F);
         contRight.add(buttonAdd);
 
-
-
         setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
         setLayout(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
@@ -217,10 +247,17 @@ public class View extends JFrame {
         constraints.gridx = 1;
         constraints.gridy = 1;
         add(contRight, constraints);
-        labelInfo = new JLabel("Information");
+        /*labelInfo = new JLabel("<html>" + "Information:"
+                + "<br>" + "Minutes - time on the field"
+                + "<br>" + "Assists - passes for goals"
+                + "<br>" + "Successful passes - number of accurate passes"
+                + "<br>" + "Stick grip - which side the player is holding the stick"
+                + "<br>" + "Penalty time - time of all violations"
+                + "<br>" + "Penalty count - count of all violations"
+                + "</html>");
         constraints.gridx = 0;
         constraints.gridy = 2;
-        add(labelInfo, constraints);
+        add(labelInfo, constraints);*/
 
         setVisible(true);
         this.setLocationRelativeTo(null);
@@ -363,33 +400,19 @@ public class View extends JFrame {
     }
 
     public void setAllTFEnabled(boolean b) {
-        //labelName.setEnabled(b);
         textFieldName.setEnabled(b);
-        //labelSurname.setEnabled(b);
         textFieldSurname.setEnabled(b);
-        //labelRole.setEnabled(b);
         textFieldRole.setEnabled(b);
-        //labelNumber.setEnabled(b);
         textFieldNumber.setEnabled(b);
-        //labelTeam.setEnabled(b);
         textFieldTeam.setEnabled(b);
-        //labelMins.setEnabled(b);
         textFieldMins.setEnabled(b);
-        //labelGoals.setEnabled(b);
         textFieldGoals.setEnabled(b);
-        //labelAssists.setEnabled(b);
         textFieldAssists.setEnabled(b);
-        //labelYC.setEnabled(b);
         textFieldYC.setEnabled(b);
-        //labelRC.setEnabled(b);
         textFieldRC.setEnabled(b);
-        //labelPsPerc.setEnabled(b);
         textFieldPsPerc.setEnabled(b);
-        //labelStickGrip.setEnabled(b);
         textFieldStickGrip.setEnabled(b);
-        //labelPenaltyTime.setEnabled(b);
         textFieldPenaltyTime.setEnabled(b);
-        //labelPenaltyCount.setEnabled(b);
         textFieldPenaltyCount.setEnabled(b);
     }
 }

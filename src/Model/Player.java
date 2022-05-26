@@ -25,6 +25,10 @@ public abstract class Player {
         return name;
     }
 
+    public String getFullName(){
+        return name + " " + surname;
+    }
+
     public int getNumber() {
         return number;
     }

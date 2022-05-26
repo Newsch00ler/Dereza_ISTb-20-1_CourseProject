@@ -57,6 +57,19 @@ public class Controller {
                 mainView.setBasketEnabled(false);
             }
         });
+        mainView.getHelpInfo().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                JOptionPane.showMessageDialog(mainView, ("<html>" + "Information:"
+                        + "<br>" + "Minutes - time on the field"
+                        + "<br>" + "Assists - passes for goals"
+                        + "<br>" + "Successful passes - number of accurate passes"
+                        + "<br>" + "Stick grip - which side the player is holding the stick"
+                        + "<br>" + "Penalty time - time of all violations"
+                        + "<br>" + "Penalty count - count of all violations"
+                        + "</html>"), "Message", JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
         mainView.addWindowListener(new WindowAdapter() {
             /*@Override
             public void windowClosing(WindowEvent e) {
