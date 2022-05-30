@@ -5,21 +5,20 @@ package Model;
 //!!!https://www.espn.com/nba/stats/player
 
 public class BasketballPlayer extends Player {
-    protected String role; //амплуа
-    protected String team;
-    /*protected int countGame; //кол-во игр
+    protected int rebounds; //ср кол-во подборов за игру
+    protected int blocks; //ср кол-во блоков за игру
+    /*protected int countGame;
     protected float minPerGame; //ср мин за игру
     protected float pointPerGame; //ср кол-во очков за игру
     protected float assistsPerGame; //ср кол-во ассистов за игру
-    protected float reboundsPerGame; //ср кол-во подборов за игру
-    protected float blockPerGame; //ср кол-во блоков за игру
+
     protected float threePointPerc; //процент 3очк бросков*/
 
     //public BasketballPlayer(String name, String surname, int number, int countGame, float minPerGame, float pointPerGame, float assistsPerGame, float reboundsPerGame, float blockPerGame, float threePointPerc){
-    public BasketballPlayer(String name, String surname, String role, String team, int number, int mins, int goals, int assists){
-        super(name, surname, number, mins, goals, assists);
-        this.role = role;
-        this.team = team;
+    public BasketballPlayer(String name, String surname, String role, String team, int number, int mins, int goals, int assists, int rebounds, int blocks){
+        super(name, surname, number, role, team, mins, goals, assists);
+        this.rebounds = rebounds;
+        this.blocks = blocks;
         /*this.countGame = countGame;
         this.minPerGame = minPerGame;
         this.pointPerGame = pointPerGame;
@@ -29,12 +28,20 @@ public class BasketballPlayer extends Player {
         this.threePointPerc = threePointPerc;*/
     }
 
-    public String getRole() {
-        return role;
+    public int getRebounds() {
+        return rebounds;
     }
 
-    public String getTeam() {
-        return team;
+    public int getBlocks() {
+        return blocks;
+    }
+
+    public void setRebounds(int rebounds) {
+        this.rebounds = rebounds;
+    }
+
+    public void setBlocks(int blocks) {
+        this.blocks = blocks;
     }
 
     /*public int getCountGame() {
@@ -58,14 +65,6 @@ public class BasketballPlayer extends Player {
     public float getThreePointPerc() {
         return threePointPerc;
     }*/
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public void setTeam(String team) {
-        this.team = team;
-    }
 
     /*public void setCountGame(int countGame) {
         this.countGame = countGame;

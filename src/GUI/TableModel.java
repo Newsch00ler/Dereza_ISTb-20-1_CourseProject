@@ -3,7 +3,7 @@ package GUI;
 import javax.swing.table.AbstractTableModel;
 
 public class TableModel extends AbstractTableModel {
-    private String[] columnName = {"Name", "Surname", "Role", "Minutes", "Goals", "Assists"};
+    private String[] columnName = {"Name", "Surname", "Number", "Role", "Team","Minutes", "Goals", "Assists"};
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
