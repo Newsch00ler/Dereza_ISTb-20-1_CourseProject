@@ -7,7 +7,7 @@ public class HockeyPlayer extends Player {
     protected int penaltyTime; //время нарушений
     protected int countPenalty; //кол-во нарушений
 
-    public HockeyPlayer(String name, String surname, String role, String team, int number, String stickGrip, int mins, int goals, int assists, int penaltyTime, int countPenalty){
+    public HockeyPlayer(String name, String surname, int number, String role, String team, int mins, int goals, int assists, String stickGrip, int penaltyTime, int countPenalty){
         super(surname, name, number, role, team, mins, goals, assists);
         this.stickGrip = stickGrip;
         this.penaltyTime = penaltyTime;

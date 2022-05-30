@@ -9,11 +9,15 @@ public class SoccerPlayer extends Player {
     protected int redCard; //красные карточки
     protected int psPerc; //процент успешных передач
 
-    public SoccerPlayer(String name, String surname, String role, String team, int number, int mins, int goals, int assists, int yelCard, int redCard, int psPerc){
+    public SoccerPlayer(String name, String surname, int number, String role, String team,  int mins, int goals, int assists, int yelCard, int redCard, int psPerc){
         super(surname, name, number, role, team, mins, goals, assists);
         this.yelCard = yelCard;
         this.redCard = redCard;
         this.psPerc = psPerc;
+    }
+
+    public SoccerPlayer(String name, String surname, int number, String role, String team,  int mins, int goals, int assists){
+        super(surname, name, number, role, team, mins, goals, assists);
     }
 
     public int getYelCard() {

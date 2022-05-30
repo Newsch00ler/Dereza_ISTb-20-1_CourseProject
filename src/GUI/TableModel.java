@@ -1,32 +1,45 @@
 package GUI;
 
+import DB.Database;
+import Model.Player;
+
 import javax.swing.table.AbstractTableModel;
 
 public class TableModel extends AbstractTableModel {
     private String[] columnName = {"Name", "Surname", "Number", "Role", "Team","Minutes", "Goals", "Assists"};
+    private Database database;
+
+    public TableModel(Database database){
+       this.database = database;
+    }
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        /*switch (columnIndex){
+        Player player = database.getAllPlayerList().get(rowIndex);
+        switch (columnIndex){
             case 0:
-                return
+                return player.getName();
             case 1:
-                return
+                return player.getSurname();
             case 2:
-                return
+                return player.getNumber();
             case 3:
-                return
+                return player.getRole();
             case 4:
-                return
+                return player.getTeam();
             case 5:
-                return
-        }*/
+                return player.getMins();
+            case 6:
+                return player.getGoals();
+            case 7:
+                return player.getAssists();
+        }
         return null;
     }
 
     @Override
     public int getRowCount() {
-        return 0;
+        return database.getSizeList();
     }
 
     @Override

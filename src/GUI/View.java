@@ -1,10 +1,9 @@
 package GUI;
 
+import DB.Database;
+
 import javax.swing.*;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumn;
 import java.awt.*;
-import java.net.URL;
 import java.util.Objects;
 
 public class View extends JFrame {
@@ -43,13 +42,12 @@ public class View extends JFrame {
     private JLabel labelStickGrip;
     private JLabel labelPenaltyTime;
     private JLabel labelPenaltyCount;
-    private JLabel labelInfo;
-
+    private JLabel labelRebounds;
+    private JLabel labelBlocks;
 
     private JTextField textFieldFind;
     private JTextField textFieldName;
     private JTextField textFieldSurname;
-    private JTextField textFieldRole;
     private JTextField textFieldNumber;
     private JTextField textFieldTeam;
     private JTextField textFieldMins;
@@ -58,15 +56,37 @@ public class View extends JFrame {
     private JTextField textFieldYC;
     private JTextField textFieldRC;
     private JTextField textFieldPsPerc;
-    private JTextField textFieldStickGrip;
     private JTextField textFieldPenaltyTime;
     private JTextField textFieldPenaltyCount;
+    private JTextField textFieldRebounds;
+    private JTextField textFieldBlocks;
 
+    private JComboBox comboRole;
+    private JComboBox comboStickGrip;
     private JButton buttonAdd;
 
     private Font font;
 
-    public View(){
+    private String[] itemsRolesFH = {
+            "Keeper",
+            "Defender",
+            "Midfielder",
+            "Forward"
+    };
+
+    private String[] itemsRolesB = {
+            "Defender",
+            "Small forward",
+            "Power forward",
+            "Central"
+    };
+
+    private String[] itemsStickGrip = {
+            "Left",
+            "Right"
+    };
+
+    public View(Database database){
         super("Bookmaker's assistant");
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
         setIconImage(new ImageIcon(Objects.requireNonNull(classloader.getResource("Icon.png"))).getImage());
@@ -113,7 +133,7 @@ public class View extends JFrame {
 
         contCenter = new Container();
         contCenter.setLayout(new BoxLayout(contCenter,BoxLayout.PAGE_AXIS));
-        playersTable = new JTable(new TableModel())/*{
+        playersTable = new JTable(new TableModel(database))/*{
             @Override
             public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
                 Component component = super.prepareRenderer(renderer, row, column);
@@ -162,13 +182,14 @@ public class View extends JFrame {
         labelStickGrip = new JLabel("Stick grip");
         labelPenaltyTime = new JLabel("Penalty time");
         labelPenaltyCount = new JLabel("Penalty count");
+        labelRebounds = new JLabel("Rebounds");
+        labelBlocks = new JLabel("Blocks");
 
         textFieldName = new JTextField();
         textFieldName.setFont(font);
         textFieldSurname = new JTextField();
         textFieldSurname.setFont(font);
-        textFieldRole = new JTextField();
-        textFieldRole.setFont(font);
+        comboRole = new JComboBox(itemsRolesFH);
         textFieldNumber = new JTextField();
         textFieldNumber.setFont(font);
         textFieldTeam = new JTextField();
@@ -185,25 +206,28 @@ public class View extends JFrame {
         textFieldRC.setFont(font);
         textFieldPsPerc = new JTextField();
         textFieldPsPerc.setFont(font);
-        textFieldStickGrip = new JTextField();
-        textFieldStickGrip.setFont(font);
+        comboStickGrip = new JComboBox(itemsStickGrip);
         textFieldPenaltyTime = new JTextField();
         textFieldPenaltyTime.setFont(font);
         textFieldPenaltyCount = new JTextField();
         textFieldPenaltyCount.setFont(font);
+        textFieldRebounds = new JTextField();
+        textFieldRebounds.setFont(font);
+        textFieldBlocks = new JTextField();
+        textFieldBlocks.setFont(font);
 
         contRight = new Container();
         contRight.setLayout(new BoxLayout(contRight, BoxLayout.PAGE_AXIS));
         labelHeader.setAlignmentX(0.5F);
         contRight.add(labelHeader);
         contInput = new Container();
-        contInput.setLayout(new GridLayout(14, 2, 1, 5));
+        contInput.setLayout(new GridLayout(16, 2, 1, 5));
         contInput.add(labelName);
         contInput.add(textFieldName);
         contInput.add(labelSurname);
         contInput.add(textFieldSurname);
         contInput.add(labelRole);
-        contInput.add(textFieldRole);
+        contInput.add(comboRole);
         contInput.add(labelNumber);
         contInput.add(textFieldNumber);
         contInput.add(labelTeam);
@@ -221,11 +245,16 @@ public class View extends JFrame {
         contInput.add(labelPsPerc);
         contInput.add(textFieldPsPerc);
         contInput.add(labelStickGrip);
-        contInput.add(textFieldStickGrip);
+        contInput.add(comboStickGrip);
         contInput.add(labelPenaltyTime);
         contInput.add(textFieldPenaltyTime);
         contInput.add(labelPenaltyCount);
         contInput.add(textFieldPenaltyCount);
+        contInput.add(labelRebounds);
+        contInput.add(textFieldRebounds);
+        contInput.add(labelBlocks);
+        contInput.add(textFieldBlocks);
+        contInput.setPreferredSize(new Dimension(300, 450));
         contRight.add(contInput);
         buttonAdd = new JButton("Add");
         buttonAdd.setAlignmentX(0.5F);
@@ -258,7 +287,6 @@ public class View extends JFrame {
         constraints.gridx = 0;
         constraints.gridy = 2;
         add(labelInfo, constraints);*/
-
         setVisible(true);
         this.setLocationRelativeTo(null);
         setResizable(false);
@@ -282,8 +310,8 @@ public class View extends JFrame {
         return textFieldSurname;
     }
 
-    public JTextField getTextFieldRole() {
-        return textFieldRole;
+    public JComboBox getComboRole() {
+        return comboRole;
     }
 
     public JTextField getTextFieldNumber() {
@@ -318,8 +346,8 @@ public class View extends JFrame {
         return textFieldPsPerc;
     }
 
-    public JTextField getTextFieldStickGrip() {
-        return textFieldStickGrip;
+    public JComboBox getComboStickGrip() {
+        return comboStickGrip;
     }
 
     public JTextField getTextFieldPenaltyTime() {
@@ -330,6 +358,10 @@ public class View extends JFrame {
         return textFieldPenaltyCount;
     }
 
+    public JTextField getTextFieldRebounds() { return textFieldRebounds; }
+
+    public JTextField getTextFieldBlocks() { return textFieldBlocks; }
+
     public JButton getButtonAdd() {
         return buttonAdd;
     }
@@ -337,6 +369,8 @@ public class View extends JFrame {
     public JTable getPlayersTable(){
         return playersTable;
     }
+
+    public JMenu getMenuSport() { return menuSport; }
 
     public JMenuItem getFootballItem() {
         return footballItem;
@@ -350,6 +384,8 @@ public class View extends JFrame {
         return basketItem;
     }
 
+    public JMenu getMenuMode() { return menuMode; }
+
     public JMenuItem getEditModeItem() {
         return editModeItem;
     }
@@ -358,61 +394,143 @@ public class View extends JFrame {
         return viewModeItem;
     }
 
-    public JMenuItem getHelpInfo() {
-        return helpInfo;
-    }
-
     public JMenuItem getInfoAboutProg() {
         return infoAboutProg;
     }
 
+    public JMenuItem getHelpInfo() {
+        return helpInfo;
+    }
+
     public void setFootballEnabled(boolean b) {
-        labelStickGrip.setEnabled(b);
-        textFieldStickGrip.setEnabled(b);
-        labelPenaltyTime.setEnabled(b);
-        textFieldPenaltyTime.setEnabled(b);
-        labelPenaltyCount.setEnabled(b);
-        textFieldPenaltyCount.setEnabled(b);
-    }
-
-    public void setHockeyEnabled(boolean b) {
-        labelYC.setEnabled(b);
-        textFieldYC.setEnabled(b);
-        labelRC.setEnabled(b);
-        textFieldRC.setEnabled(b);
-        labelPsPerc.setEnabled(b);
-        textFieldPsPerc.setEnabled(b);
-    }
-
-    public void setBasketEnabled(boolean b) {
-        labelYC.setEnabled(b);
-        textFieldYC.setEnabled(b);
-        labelRC.setEnabled(b);
-        textFieldRC.setEnabled(b);
-        labelPsPerc.setEnabled(b);
-        textFieldPsPerc.setEnabled(b);
-        labelStickGrip.setEnabled(b);
-        textFieldStickGrip.setEnabled(b);
-        labelPenaltyTime.setEnabled(b);
-        textFieldPenaltyTime.setEnabled(b);
-        labelPenaltyCount.setEnabled(b);
-        textFieldPenaltyCount.setEnabled(b);
-    }
-
-    public void setAllTFEnabled(boolean b) {
+        //labelHeader.setText("Add soccer");
         textFieldName.setEnabled(b);
         textFieldSurname.setEnabled(b);
-        textFieldRole.setEnabled(b);
+        comboRole.removeAllItems();
+        for(String i : itemsRolesFH){
+            comboRole.addItem(i);
+        }
+        //comboRole.addItem(itemsRolesFH);
+        comboRole.setEnabled(b);
         textFieldNumber.setEnabled(b);
         textFieldTeam.setEnabled(b);
         textFieldMins.setEnabled(b);
         textFieldGoals.setEnabled(b);
         textFieldAssists.setEnabled(b);
+        labelYC.setEnabled(b);
         textFieldYC.setEnabled(b);
+        labelRC.setEnabled(b);
         textFieldRC.setEnabled(b);
+        labelPsPerc.setEnabled(b);
         textFieldPsPerc.setEnabled(b);
-        textFieldStickGrip.setEnabled(b);
+        labelStickGrip.setEnabled(!b);
+        comboStickGrip.setEnabled(!b);
+        labelPenaltyTime.setEnabled(!b);
+        textFieldPenaltyTime.setEnabled(!b);
+        labelPenaltyCount.setEnabled(!b);
+        textFieldPenaltyCount.setEnabled(!b);
+        labelRebounds.setEnabled(!b);
+        textFieldRebounds.setEnabled(!b);
+        labelBlocks.setEnabled(!b);
+        textFieldBlocks.setEnabled(!b);
+    }
+
+    public void setHockeyEnabled(boolean b) {
+        //labelHeader.setText("Add hockey player");
+        textFieldName.setEnabled(b);
+        textFieldSurname.setEnabled(b);
+        comboRole.removeAllItems();
+        for(String i : itemsRolesFH){
+            comboRole.addItem(i);
+        }
+        //comboRole.addItem(itemsRolesFH);
+        comboRole.setEnabled(b);
+        textFieldNumber.setEnabled(b);
+        textFieldTeam.setEnabled(b);
+        textFieldMins.setEnabled(b);
+        textFieldGoals.setEnabled(b);
+        textFieldAssists.setEnabled(b);
+        labelYC.setEnabled(!b);
+        textFieldYC.setEnabled(!b);
+        labelRC.setEnabled(!b);
+        textFieldRC.setEnabled(!b);
+        labelPsPerc.setEnabled(!b);
+        textFieldPsPerc.setEnabled(!b);
+        labelStickGrip.setEnabled(b);
+        comboStickGrip.setEnabled(b);
+        labelPenaltyTime.setEnabled(b);
         textFieldPenaltyTime.setEnabled(b);
+        labelPenaltyCount.setEnabled(b);
         textFieldPenaltyCount.setEnabled(b);
+        labelRebounds.setEnabled(!b);
+        textFieldRebounds.setEnabled(!b);
+        labelBlocks.setEnabled(!b);
+        textFieldBlocks.setEnabled(!b);
+    }
+
+    public void setBasketEnabled(boolean b) {
+        //labelHeader.setText("Add basketball player");
+        textFieldName.setEnabled(b);
+        textFieldSurname.setEnabled(b);
+        comboRole.removeAllItems();
+        for(String i : itemsRolesB){
+            comboRole.addItem(i);
+        }
+        //comboRole.addItem(itemsRolesB);
+        comboRole.setEnabled(b);
+        textFieldNumber.setEnabled(b);
+        textFieldTeam.setEnabled(b);
+        textFieldMins.setEnabled(b);
+        textFieldGoals.setEnabled(b);
+        textFieldAssists.setEnabled(b);
+        labelYC.setEnabled(!b);
+        textFieldYC.setEnabled(!b);
+        labelRC.setEnabled(!b);
+        textFieldRC.setEnabled(!b);
+        labelPsPerc.setEnabled(!b);
+        textFieldPsPerc.setEnabled(!b);
+        labelStickGrip.setEnabled(!b);
+        comboStickGrip.setEnabled(!b);
+        labelPenaltyTime.setEnabled(!b);
+        textFieldPenaltyTime.setEnabled(!b);
+        labelPenaltyCount.setEnabled(!b);
+        textFieldPenaltyCount.setEnabled(!b);
+        labelRebounds.setEnabled(b);
+        textFieldRebounds.setEnabled(b);
+        labelBlocks.setEnabled(b);
+        textFieldBlocks.setEnabled(b);
+    }
+
+    public void setAllEnabled(boolean b) {
+        ///labelHeader.setText("Statistic");
+        textFieldName.setEnabled(b);
+        textFieldSurname.setEnabled(b);
+        comboRole.removeAllItems();
+        for(String i : itemsRolesFH){
+            comboRole.addItem(i);
+        }
+        //comboRole.addItem(itemsRolesFH);
+        comboRole.setEnabled(b);
+        textFieldNumber.setEnabled(b);
+        textFieldTeam.setEnabled(b);
+        textFieldMins.setEnabled(b);
+        textFieldGoals.setEnabled(b);
+        textFieldAssists.setEnabled(b);
+        labelYC.setEnabled(!b);
+        textFieldYC.setEnabled(b);
+        labelRC.setEnabled(!b);
+        textFieldRC.setEnabled(b);
+        labelPsPerc.setEnabled(!b);
+        textFieldPsPerc.setEnabled(b);
+        labelStickGrip.setEnabled(!b);
+        comboStickGrip.setEnabled(b);
+        labelPenaltyTime.setEnabled(!b);
+        textFieldPenaltyTime.setEnabled(b);
+        labelPenaltyCount.setEnabled(!b);
+        textFieldPenaltyCount.setEnabled(b);
+        labelRebounds.setEnabled(!b);
+        textFieldRebounds.setEnabled(b);
+        labelBlocks.setEnabled(!b);
+        textFieldBlocks.setEnabled(b);
     }
 }

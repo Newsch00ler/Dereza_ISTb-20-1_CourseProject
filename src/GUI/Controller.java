@@ -1,5 +1,7 @@
 package GUI;
 
+import DB.Database;
+
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -11,52 +13,104 @@ import java.awt.event.WindowEvent;
 import java.util.regex.PatternSyntaxException;
 
 public class Controller {
-    private boolean addClickFlag = false;
+    private boolean modeFlag = false;
+    private int sportFlag = 1;
 
     public Controller(){    }
 
     public void execute(View mainView){
         mainView.getButtonAdd().setEnabled(false);
-        mainView.setAllTFEnabled(false);
+        mainView.getLabelHeader().setText("Statistic");
+        mainView.setAllEnabled(false);
         mainView.getEditModeItem().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                Controller.this.addClickFlag = true;
-                mainView.getLabelHeader().setText("Add");
+                modeFlag = true;
+                sportFlag = 1;
+                mainView.getLabelHeader().setText("Add soccer");
                 mainView.getButtonAdd().setEnabled(true);
-                mainView.setAllTFEnabled(true);
+                mainView.setFootballEnabled(true);
             }
         });
         mainView.getViewModeItem().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                Controller.this.addClickFlag = false;
-                mainView.getLabelHeader().setText("Statistics");
+                modeFlag = false;
+                mainView.getLabelHeader().setText("Statistic");
                 mainView.getButtonAdd().setEnabled(false);
-                mainView.setAllTFEnabled(false);
+                mainView.setAllEnabled(false);
             }
         });
         mainView.getFootballItem().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                mainView.setAllTFEnabled(true);
-                mainView.setFootballEnabled(false);
+                if(modeFlag){
+                    sportFlag = 1;
+                    mainView.getLabelHeader().setText("Add soccer");
+                    mainView.getButtonAdd().setEnabled(true);
+                    mainView.setFootballEnabled(true);
+                }
+                else{
+                    mainView.getButtonAdd().setEnabled(false);
+                    mainView.setAllEnabled(false);
+                }
             }
         });
         mainView.getHockeyItem().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                mainView.setAllTFEnabled(true);
-                mainView.setHockeyEnabled(false);
+                if(modeFlag){
+                    sportFlag = 2;
+                    mainView.getLabelHeader().setText("Add hockey player");
+                    mainView.getButtonAdd().setEnabled(true);
+                    mainView.setHockeyEnabled(true);
+                }
+                else{
+                    mainView.getButtonAdd().setEnabled(false);
+                    mainView.setAllEnabled(false);
+                }
             }
         });
         mainView.getBasketItem().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                mainView.setAllTFEnabled(true);
-                mainView.setBasketEnabled(false);
+                if(modeFlag){
+                    sportFlag = 3;
+                    mainView.getLabelHeader().setText("Add basketball player");
+                    mainView.getButtonAdd().setEnabled(true);
+                    mainView.setBasketEnabled(true);
+                }
+                else{
+                    mainView.getButtonAdd().setEnabled(false);
+                    mainView.setAllEnabled(false);
+                }
             }
         });
+        mainView.getTextFieldFind().setToolTipText("<html>" + "The search is performed on all values of the table" + "<br>" + "</html>");
+        /*mainView.getFootballItem().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                mainView.setAllTFEnabled(true);
+                mainView.getLabelHeader().setText("Add soccer");
+                mainView.setFootballEnabled(false);
+            }
+        });*/
+        /*mainView.getHockeyItem().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                mainView.setAllTFEnabled(true);
+                mainView.getLabelHeader().setText("Add hockey player");
+                mainView.setHockeyEnabled(false);
+            }
+        });*/
+        /*mainView.getBasketItem().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                mainView.setAllTFEnabled(true);
+                mainView.getLabelHeader().setText("Add basketball player");
+                mainView.setBasketEnabled(false);
+            }
+        });*/
         mainView.getHelpInfo().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -67,6 +121,16 @@ public class Controller {
                         + "<br>" + "Stick grip - which side the player is holding the stick"
                         + "<br>" + "Penalty time - time of all violations"
                         + "<br>" + "Penalty count - count of all violations"
+                        + "</html>"), "Message", JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+        mainView.getInfoAboutProg().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                JOptionPane.showMessageDialog(mainView, ("<html>" + "Information about programm:"
+                        + "<br>" + "Software product version IntelliJ IDEA 2021.3.3 (Community Edition)"
+                        + "<br>" + "Date of last changes in the program: 06/01/2022"
+                        + "<br>" + "Author's coordinates: Alexander Igorevich Dereza, Irkutsk National Research Technical University, ISTb-20-1, e-mail: daleks19@mail.ru"
                         + "</html>"), "Message", JOptionPane.INFORMATION_MESSAGE);
             }
         });
