@@ -1,30 +1,146 @@
 package GUI;
 
 import DB.Database;
+import Model.SoccerPlayer;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.TableRowSorter;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
+import java.util.Objects;
 import java.util.regex.PatternSyntaxException;
+
+import static com.sun.java.accessibility.util.AWTEventMonitor.addKeyListener;
 
 public class Controller {
     private boolean modeFlag = false;
     private int sportFlag = 1;
 
-    public Controller(){    }
+    public Controller(){}
 
     public void execute(View mainView){
+        mainView.getMenuSport().setToolTipText("<html>" + "Choice of sport" + "<br>" + "</html>");
+        mainView.getMenuMode().setToolTipText("<html>" + "Mode selection" + "<br>" + "</html>");
+        mainView.getMenuHelp().setToolTipText("<html>" + "Program information" + "<br>" + "</html>");
+        mainView.getTextFieldFind().setToolTipText("<html>" + "The search is performed on all values of the table" + "<br>" + "</html>");
+
+        mainView.getTextFieldNumber().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+        });
+        mainView.getTextFieldMins().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+        });
+        mainView.getTextFieldGoals().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+        });
+        mainView.getTextFieldGoals().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+        });
+        mainView.getTextFieldAssists().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+        });
+        mainView.getTextFieldYC().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+        });
+        mainView.getTextFieldRC().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+        });
+        mainView.getTextFieldPsPerc().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+        });
+        mainView.getTextFieldPenaltyTime().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+        });
+        mainView.getTextFieldPenaltyCount().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+        });
+        mainView.getTextFieldRebounds().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+        });
+        mainView.getTextFieldBlocks().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+        });
+
         mainView.getButtonAdd().setEnabled(false);
         mainView.getLabelHeader().setText("Statistic");
         mainView.setAllEnabled(false);
         mainView.getEditModeItem().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
+                mainView.clearAll();
                 modeFlag = true;
                 sportFlag = 1;
                 mainView.getLabelHeader().setText("Add soccer");
@@ -35,6 +151,7 @@ public class Controller {
         mainView.getViewModeItem().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
+                mainView.clearAll();
                 modeFlag = false;
                 mainView.getLabelHeader().setText("Statistic");
                 mainView.getButtonAdd().setEnabled(false);
@@ -44,6 +161,7 @@ public class Controller {
         mainView.getFootballItem().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
+                mainView.clearAll();
                 if(modeFlag){
                     sportFlag = 1;
                     mainView.getLabelHeader().setText("Add soccer");
@@ -59,6 +177,7 @@ public class Controller {
         mainView.getHockeyItem().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
+                mainView.clearAll();
                 if(modeFlag){
                     sportFlag = 2;
                     mainView.getLabelHeader().setText("Add hockey player");
@@ -74,6 +193,7 @@ public class Controller {
         mainView.getBasketItem().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
+                mainView.clearAll();
                 if(modeFlag){
                     sportFlag = 3;
                     mainView.getLabelHeader().setText("Add basketball player");
@@ -86,31 +206,6 @@ public class Controller {
                 }
             }
         });
-        mainView.getTextFieldFind().setToolTipText("<html>" + "The search is performed on all values of the table" + "<br>" + "</html>");
-        /*mainView.getFootballItem().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                mainView.setAllTFEnabled(true);
-                mainView.getLabelHeader().setText("Add soccer");
-                mainView.setFootballEnabled(false);
-            }
-        });*/
-        /*mainView.getHockeyItem().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                mainView.setAllTFEnabled(true);
-                mainView.getLabelHeader().setText("Add hockey player");
-                mainView.setHockeyEnabled(false);
-            }
-        });*/
-        /*mainView.getBasketItem().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                mainView.setAllTFEnabled(true);
-                mainView.getLabelHeader().setText("Add basketball player");
-                mainView.setBasketEnabled(false);
-            }
-        });*/
         mainView.getHelpInfo().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -177,108 +272,186 @@ public class Controller {
                 mainWindow.getRemAllButton().setEnabled(false);
             }
         });*/
-        /*mainWindow.getAddButton().addActionListener(new ActionListener() {
+        mainView.getButtonAdd().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 String name;
-                String role;
+                String surname;
                 int number;
+                String role;
+                String team;
+                int mins;
+                int goals;
+                int assists;
+                int yC;
+                int rC;
+                int pS;
                 String stickGrip;
-                int perc;
+                int penTime;
+                int penCount;
+                int rebounds;
+                int blocks;
                 try{
-                    if (mainWindow.getSurnamePlayer().getText().isEmpty() && mainWindow.getNumberPlayer().getText().isEmpty() && mainWindow.getPercPlayer().getText().isEmpty()){
-                        throw new Exception("<html>" + "Игрок не создан!" + "<br>" + "Введите данные!" + "</html>");
+                    if (mainView.getTextFieldName().getText().isEmpty() && mainView.getTextFieldSurname().getText().isEmpty() && mainView.getTextFieldNumber().getText().isEmpty() &&
+                            mainView.getTextFieldTeam().getText().isEmpty() && mainView.getTextFieldMins().getText().isEmpty() && mainView.getTextFieldGoals().getText().isEmpty() &&
+                            mainView.getTextFieldAssists().getText().isEmpty() && mainView.getTextFieldYC().getText().isEmpty() && mainView.getTextFieldRC().getText().isEmpty() &&
+                            mainView.getTextFieldPsPerc().getText().isEmpty() && mainView.getTextFieldPenaltyTime().getText().isEmpty() && mainView.getTextFieldPenaltyCount().getText().isEmpty() &&
+                            mainView.getTextFieldRebounds().getText().isEmpty() && mainView.getTextFieldBlocks().getText().isEmpty()){
+                        throw new Exception(" not created! Enter data!");
                     }
-                    else if (mainWindow.getSurnamePlayer().getText().isEmpty() && mainWindow.getNumberPlayer().getText().isEmpty()){
-                        throw new Exception("Фамилия и номер игрока не введены!");
+                    else if (mainView.getTextFieldName().getText().isEmpty()){
+                        throw new Exception(" name not entered!");
                     }
-                    else if (mainWindow.getSurnamePlayer().getText().isEmpty() && mainWindow.getPercPlayer().getText().isEmpty()){
-                        throw new Exception("Фамилия игрока и процент не введены!");
+                    else if (mainView.getTextFieldSurname().getText().isEmpty()){
+                        throw new Exception(" surname not entered!");
                     }
-                    else if (mainWindow.getNumberPlayer().getText().isEmpty() && mainWindow.getPercPlayer().getText().isEmpty()){
-                        throw new Exception("Номер игрока и процент не введены!");
+                    else if (mainView.getTextFieldNumber().getText().isEmpty()){
+                        throw new Exception(" number not entered!");
                     }
-                    else if (mainWindow.getSurnamePlayer().getText().isEmpty()){
-                        throw new Exception("Фамилия игрока не введена!");
+                    else if (mainView.getTextFieldTeam().getText().isEmpty()){
+                        throw new Exception(" team not entered!");
                     }
-                    else if (mainWindow.getNumberPlayer().getText().isEmpty()){
-                        throw new Exception("Номер игрока не введён!");
+                    else if (mainView.getTextFieldMins().getText().isEmpty()){
+                        throw new Exception(" minutes on the field is not entered!");
                     }
-                    else if (mainWindow.getPercPlayer().getText().isEmpty()){
-                        throw new Exception("Процент не введён!");
+                    else if (mainView.getTextFieldGoals().getText().isEmpty()){
+                        throw new Exception(" goals on the field not entered!");
                     }
-                    name = mainWindow.getSurnamePlayer().getText();
-                    role = (String) mainWindow.getComboRole().getSelectedItem();
-                    number = Integer.valueOf(mainWindow.getNumberPlayer().getText());
-                    stickGrip = (String) mainWindow.getComboStickGrip().getSelectedItem();
-                    perc = Integer.valueOf(mainWindow.getPercPlayer().getText());
-                    if (number < 1 || number > 99){
-                        mainWindow.getNumberPlayer().setText(null);
-                        throw new Exception("<html>" + "Неправильно введен номер игрока!" + "<br>" + "Введите число от 1 до 99!" + "</html>");
+                    else if (mainView.getTextFieldAssists().getText().isEmpty()){
+                        throw new Exception(" assists on the field not entered!");
                     }
-                    else if (perc < 0 || perc > 100){
-                        mainWindow.getPercPlayer().setText(null);
-                        throw new Exception("<html>" + "Неправильно введен процент!"+ "<br>" + "Введите число от 0 до 100!" + "</html>");
-                    }
-                    else{
-                        switch (role) {
-                            case "Вратарь":
-                                player = new Keeper(name, stickGrip, number, perc);
-                                hockeyTeam.add(player);
-                                break;
-                            case "Защитник":
-                                player = new Defender(name, stickGrip, number, perc);
-                                hockeyTeam.add(player);
-                                break;
-                            case "Полузащитник":
-                                player = new Midfielder(name, stickGrip, number, perc);
-                                hockeyTeam.add(player);
-                                break;
-                            case "Нападающий":
-                                player = new Forward(name, stickGrip, number, perc);
-                                hockeyTeam.add(player);
-                                break;
+                    if(sportFlag == 1){
+                        if (mainView.getTextFieldYC().getText().isEmpty()){
+                            throw new Exception(" minutes on the field is not entered!");
                         }
-                        mainWindow.clearAdd();
+                        else if (mainView.getTextFieldRC().getText().isEmpty()){
+                            throw new Exception(" goals on the field not entered!");
+                        }
+                        else if (mainView.getTextFieldPsPerc().getText().isEmpty()){
+                            throw new Exception(" assists on the field not entered!");
+                        }
+                        name = mainView.getTextFieldName().getText();
+                        surname = mainView.getTextFieldSurname().getText();
+                        number = Integer.parseInt(mainView.getTextFieldNumber().getText());
+                        role = (String) mainView.getComboRole().getSelectedItem();
+                        team = mainView.getTextFieldTeam().getText();
+                        mins = Integer.parseInt(mainView.getTextFieldMins().getText());
+                        goals = Integer.parseInt(mainView.getTextFieldGoals().getText());
+                        assists = Integer.parseInt(mainView.getTextFieldAssists().getText());
+                        yC = Integer.parseInt(mainView.getTextFieldYC().getText());
+                        rC = Integer.parseInt(mainView.getTextFieldRC().getText());
+                        pS = Integer.parseInt(mainView.getTextFieldPsPerc().getText());
+                        if (number < 1 || number > 99){
+                            mainView.getTextFieldNumber().setText(null);
+                            throw new Exception(" number entered incorrectly! Enter a number from 1 to 99!");
+                        }
+                        else{
+                            //player = new SoccerPlayer(name, stickGrip, number, perc);
+                            //hockeyTeam.add(player);
+                        }
+                        mainView.clearAll();
                     }
-                    mainWindow.getFindTextField().setEnabled(true);
-                    mainWindow.getRemButton().setEnabled(true);
-                    mainWindow.getRemAllButton().setEnabled(true);
-                    mainWindow.getTableModel().fireTableDataChanged();
+                    else if(sportFlag == 2){
+                        if (mainView.getTextFieldYC().getText().isEmpty()){
+                            throw new Exception(" minutes on the field is not entered!");
+                        }
+                        else if (mainView.getTextFieldRC().getText().isEmpty()){
+                            throw new Exception(" goals on the field not entered!");
+                        }
+                        else if (mainView.getTextFieldPsPerc().getText().isEmpty()){
+                            throw new Exception(" assists on the field not entered!");
+                        }
+                        name = mainView.getTextFieldName().getText();
+                        surname = mainView.getTextFieldSurname().getText();
+                        number = Integer.parseInt(mainView.getTextFieldNumber().getText());
+                        role = (String) mainView.getComboRole().getSelectedItem();
+                        team = mainView.getTextFieldTeam().getText();
+                        mins = Integer.parseInt(mainView.getTextFieldMins().getText());
+                        goals = Integer.parseInt(mainView.getTextFieldGoals().getText());
+                        assists = Integer.parseInt(mainView.getTextFieldAssists().getText());
+                        yC = Integer.parseInt(mainView.getTextFieldYC().getText());
+                        rC = Integer.parseInt(mainView.getTextFieldRC().getText());
+                        pS = Integer.parseInt(mainView.getTextFieldPsPerc().getText());
+                        if (number < 1 || number > 99){
+                            mainView.getTextFieldNumber().setText(null);
+                            throw new Exception(" number entered incorrectly! Enter a number from 1 to 99!");
+                        }
+                        else{
+                            //player = new SoccerPlayer(name, stickGrip, number, perc);
+                            //hockeyTeam.add(player);
+                        }
+                        mainView.clearAll();
+                    }
+                    else if (sportFlag == 3){
+                        if (mainView.getTextFieldYC().getText().isEmpty()){
+                            throw new Exception(" minutes on the field is not entered!");
+                        }
+                        else if (mainView.getTextFieldRC().getText().isEmpty()){
+                            throw new Exception(" goals on the field not entered!");
+                        }
+                        else if (mainView.getTextFieldPsPerc().getText().isEmpty()){
+                            throw new Exception(" assists on the field not entered!");
+                        }
+                        name = mainView.getTextFieldName().getText();
+                        surname = mainView.getTextFieldSurname().getText();
+                        number = Integer.parseInt(mainView.getTextFieldNumber().getText());
+                        role = (String) mainView.getComboRole().getSelectedItem();
+                        team = mainView.getTextFieldTeam().getText();
+                        mins = Integer.parseInt(mainView.getTextFieldMins().getText());
+                        goals = Integer.parseInt(mainView.getTextFieldGoals().getText());
+                        assists = Integer.parseInt(mainView.getTextFieldAssists().getText());
+                        yC = Integer.parseInt(mainView.getTextFieldYC().getText());
+                        rC = Integer.parseInt(mainView.getTextFieldRC().getText());
+                        pS = Integer.parseInt(mainView.getTextFieldPsPerc().getText());
+                        if (number < 1 || number > 99){
+                            mainView.getTextFieldNumber().setText(null);
+                            throw new Exception("number entered incorrectly! Enter a number from 1 to 99!");
+                        }
+                        else{
+                            //player = new SoccerPlayer(name, stickGrip, number, perc);
+                            //hockeyTeam.add(player);
+                        }
+                        mainView.clearAll();
+                    }
                 }
                 catch (Exception ex){
-                    JOptionPane.showMessageDialog(mainWindow, ex.getMessage(), "Предупреждение", JOptionPane.WARNING_MESSAGE);
+                    if(sportFlag == 1){
+                        JOptionPane.showMessageDialog(mainView, "Soccer" + ex.getMessage(), "Warning", JOptionPane.WARNING_MESSAGE);
+                    }
+                    else if(sportFlag == 2){
+                        JOptionPane.showMessageDialog(mainView, "Hockey player" + ex.getMessage(), "Warning", JOptionPane.WARNING_MESSAGE);
+                    }
+                    else if (sportFlag == 3){
+                        JOptionPane.showMessageDialog(mainView, "Basketball player" + ex.getMessage(), "Warning", JOptionPane.WARNING_MESSAGE);
+                    }
                 }
             }
-        });*/
-        /*mainView.getTextFieldFind().getDocument().addDocumentListener(new DocumentListener() {
+        });
+        mainView.getTextFieldFind().getDocument().addDocumentListener(new DocumentListener() {
             private void newFilter(){
                 TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(mainView.getTableModel());
                 mainView.getPlayersTable().setRowSorter(sorter);
-                RowFilter<TableModel, Object>plr = null;
+                RowFilter<TableModel, Object>player= null;
                 try {
-                    plr = RowFilter.regexFilter(mainView.getTextFieldFind().getText());
+                    player = RowFilter.regexFilter(mainView.getTextFieldFind().getText());
                 }
                 catch (PatternSyntaxException e) {
                     return;
                 }
-                sorter.setRowFilter(plr);
+                sorter.setRowFilter(player);
             }
-
             @Override
             public void insertUpdate(DocumentEvent e) {
                 newFilter();
             }
-
             @Override
             public void removeUpdate(DocumentEvent e) {
                 newFilter();
             }
-
             @Override
             public void changedUpdate(DocumentEvent e) {
                 newFilter();
             }
-        });*/
+        });
     }
 }

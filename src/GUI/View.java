@@ -7,6 +7,7 @@ import java.awt.*;
 import java.util.Objects;
 
 public class View extends JFrame {
+    private TableModel tableModel;
     private JTable playersTable;
     private JScrollPane scrollPane;
 
@@ -26,6 +27,7 @@ public class View extends JFrame {
     private Container contRight;
     private Container contInput;
 
+    //private JLabel background;
     private JLabel labelHeader;
     private JLabel labelFind;
     private JLabel labelName;
@@ -67,6 +69,13 @@ public class View extends JFrame {
 
     private Font font;
 
+    private Color colorFootball1 = new Color(82, 220, 38);
+    private Color colorFootball2 = new Color(154, 238, 130);
+    private Color colorHockey1 = new Color(92, 92, 231);
+    private Color colorHockey2 = new Color(142, 142, 236);
+    private Color colorBasket1 = new Color(220, 93, 14);
+    private Color colorBasket2 = new Color(225, 154, 116);
+
     private String[] itemsRolesFH = {
             "Keeper",
             "Defender",
@@ -90,16 +99,20 @@ public class View extends JFrame {
         super("Bookmaker's assistant");
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
         setIconImage(new ImageIcon(Objects.requireNonNull(classloader.getResource("Icon.png"))).getImage());
-        /*background = new JLabel(new ImageIcon(Objects.requireNonNull(classloader.getResource("Background.jpg"))));
-        add(background);*/
-
+        //background = new JLabel(new ImageIcon(Objects.requireNonNull(classloader.getResource("Background.jpg"))));
+        //add(background);
         font = new Font("TimesRoman", 0, 14);
 
+
         menuBar = new JMenuBar();
+        menuBar.setBackground(colorFootball1);
         menuSport = new JMenu("Sport");
         footballItem = new JMenuItem("Football");
+        footballItem.setBackground(colorFootball2);
         hockeyItem = new JMenuItem("Hockey");
+        hockeyItem.setBackground(colorFootball2);
         basketItem = new JMenuItem("Basketball");
+        basketItem.setBackground(colorFootball2);
         menuSport.add(footballItem);
         menuSport.add(hockeyItem);
         menuSport.add(basketItem);
@@ -107,14 +120,18 @@ public class View extends JFrame {
 
         menuMode = new JMenu("Mode");
         editModeItem = new JMenuItem("Edit mode");
+        editModeItem.setBackground(colorFootball2);
         viewModeItem = new JMenuItem("View mode");
+        viewModeItem.setBackground(colorFootball2);
         menuMode.add(editModeItem);
         menuMode.add(viewModeItem);
         menuBar.add(menuMode);
 
         menuHelp = new JMenu("Help");
         helpInfo = new JMenuItem("Help information");
-        infoAboutProg = new JMenuItem("Information about programm");
+        helpInfo.setBackground(colorFootball2);
+        infoAboutProg = new JMenuItem("About");
+        infoAboutProg.setBackground(colorFootball2);
         menuHelp.add(helpInfo);
         menuHelp.add(infoAboutProg);
         menuBar.add(menuHelp);
@@ -133,7 +150,8 @@ public class View extends JFrame {
 
         contCenter = new Container();
         contCenter.setLayout(new BoxLayout(contCenter,BoxLayout.PAGE_AXIS));
-        playersTable = new JTable(new TableModel(database))/*{
+        tableModel = new TableModel(database);
+        playersTable = new JTable(tableModel)/*{
             @Override
             public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
                 Component component = super.prepareRenderer(renderer, row, column);
@@ -164,6 +182,7 @@ public class View extends JFrame {
             }
 
         }*/;
+        playersTable.setBackground(colorFootball2);
         scrollPane = new JScrollPane(playersTable);
         contCenter.add(scrollPane);
 
@@ -276,17 +295,7 @@ public class View extends JFrame {
         constraints.gridx = 1;
         constraints.gridy = 1;
         add(contRight, constraints);
-        /*labelInfo = new JLabel("<html>" + "Information:"
-                + "<br>" + "Minutes - time on the field"
-                + "<br>" + "Assists - passes for goals"
-                + "<br>" + "Successful passes - number of accurate passes"
-                + "<br>" + "Stick grip - which side the player is holding the stick"
-                + "<br>" + "Penalty time - time of all violations"
-                + "<br>" + "Penalty count - count of all violations"
-                + "</html>");
-        constraints.gridx = 0;
-        constraints.gridy = 2;
-        add(labelInfo, constraints);*/
+
         setVisible(true);
         this.setLocationRelativeTo(null);
         setResizable(false);
@@ -366,6 +375,8 @@ public class View extends JFrame {
         return buttonAdd;
     }
 
+    public TableModel getTableModel() { return tableModel; }
+
     public JTable getPlayersTable(){
         return playersTable;
     }
@@ -394,6 +405,8 @@ public class View extends JFrame {
         return viewModeItem;
     }
 
+    public JMenu getMenuHelp() { return menuHelp; }
+
     public JMenuItem getInfoAboutProg() {
         return infoAboutProg;
     }
@@ -403,14 +416,21 @@ public class View extends JFrame {
     }
 
     public void setFootballEnabled(boolean b) {
-        //labelHeader.setText("Add soccer");
+        menuBar.setBackground(colorFootball1);
+        footballItem.setBackground(colorFootball2);
+        hockeyItem.setBackground(colorFootball2);
+        basketItem.setBackground(colorFootball2);
+        editModeItem.setBackground(colorFootball2);
+        viewModeItem.setBackground(colorFootball2);
+        helpInfo.setBackground(colorFootball2);
+        infoAboutProg.setBackground(colorFootball2);
+        playersTable.setBackground(colorFootball2);
         textFieldName.setEnabled(b);
         textFieldSurname.setEnabled(b);
         comboRole.removeAllItems();
         for(String i : itemsRolesFH){
             comboRole.addItem(i);
         }
-        //comboRole.addItem(itemsRolesFH);
         comboRole.setEnabled(b);
         textFieldNumber.setEnabled(b);
         textFieldTeam.setEnabled(b);
@@ -436,14 +456,21 @@ public class View extends JFrame {
     }
 
     public void setHockeyEnabled(boolean b) {
-        //labelHeader.setText("Add hockey player");
+        menuBar.setBackground(colorHockey1);
+        footballItem.setBackground(colorHockey2);
+        hockeyItem.setBackground(colorHockey2);
+        basketItem.setBackground(colorHockey2);
+        editModeItem.setBackground(colorHockey2);
+        viewModeItem.setBackground(colorHockey2);
+        helpInfo.setBackground(colorHockey2);
+        infoAboutProg.setBackground(colorHockey2);
+        playersTable.setBackground(colorHockey2);
         textFieldName.setEnabled(b);
         textFieldSurname.setEnabled(b);
         comboRole.removeAllItems();
         for(String i : itemsRolesFH){
             comboRole.addItem(i);
         }
-        //comboRole.addItem(itemsRolesFH);
         comboRole.setEnabled(b);
         textFieldNumber.setEnabled(b);
         textFieldTeam.setEnabled(b);
@@ -469,14 +496,21 @@ public class View extends JFrame {
     }
 
     public void setBasketEnabled(boolean b) {
-        //labelHeader.setText("Add basketball player");
+        menuBar.setBackground(colorBasket1);
+        footballItem.setBackground(colorBasket2);
+        hockeyItem.setBackground(colorBasket2);
+        basketItem.setBackground(colorBasket2);
+        editModeItem.setBackground(colorBasket2);
+        viewModeItem.setBackground(colorBasket2);
+        helpInfo.setBackground(colorBasket2);
+        infoAboutProg.setBackground(colorBasket2);
+        playersTable.setBackground(colorBasket2);
         textFieldName.setEnabled(b);
         textFieldSurname.setEnabled(b);
         comboRole.removeAllItems();
         for(String i : itemsRolesB){
             comboRole.addItem(i);
         }
-        //comboRole.addItem(itemsRolesB);
         comboRole.setEnabled(b);
         textFieldNumber.setEnabled(b);
         textFieldTeam.setEnabled(b);
@@ -502,14 +536,21 @@ public class View extends JFrame {
     }
 
     public void setAllEnabled(boolean b) {
-        ///labelHeader.setText("Statistic");
+        menuBar.setBackground(colorFootball1);
+        footballItem.setBackground(colorFootball2);
+        hockeyItem.setBackground(colorFootball2);
+        basketItem.setBackground(colorFootball2);
+        editModeItem.setBackground(colorFootball2);
+        viewModeItem.setBackground(colorFootball2);
+        helpInfo.setBackground(colorFootball2);
+        infoAboutProg.setBackground(colorFootball2);
+        playersTable.setBackground(colorFootball2);
         textFieldName.setEnabled(b);
         textFieldSurname.setEnabled(b);
         comboRole.removeAllItems();
         for(String i : itemsRolesFH){
             comboRole.addItem(i);
         }
-        //comboRole.addItem(itemsRolesFH);
         comboRole.setEnabled(b);
         textFieldNumber.setEnabled(b);
         textFieldTeam.setEnabled(b);
@@ -532,5 +573,24 @@ public class View extends JFrame {
         textFieldRebounds.setEnabled(b);
         labelBlocks.setEnabled(!b);
         textFieldBlocks.setEnabled(b);
+    }
+
+    public void clearAll(){
+        getTextFieldName().setText(null);
+        getTextFieldSurname().setText(null);
+        getComboRole().setSelectedIndex(0);
+        getTextFieldNumber().setText(null);
+        getTextFieldTeam().setText(null);
+        getTextFieldMins().setText(null);
+        getTextFieldGoals().setText(null);
+        getTextFieldAssists().setText(null);
+        getTextFieldYC().setText(null);
+        getTextFieldRC().setText(null);
+        getTextFieldPsPerc().setText(null);
+        getComboStickGrip().setSelectedIndex(0);
+        getTextFieldPenaltyTime().setText(null);
+        getTextFieldPenaltyCount().setText(null);
+        getTextFieldRebounds().setText(null);
+        getTextFieldBlocks().setText(null);
     }
 }
