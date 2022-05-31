@@ -1,17 +1,19 @@
 package GUI;
 
 import DB.Database;
+import Model.BasketballPlayer;
+import Model.HockeyPlayer;
 import Model.SoccerPlayer;
 
 import javax.swing.*;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.TableRowSorter;
 import java.awt.event.*;
-import java.util.Objects;
+import java.sql.SQLException;
 import java.util.regex.PatternSyntaxException;
-
-import static com.sun.java.accessibility.util.AWTEventMonitor.addKeyListener;
 
 public class Controller {
     private boolean modeFlag = false;
@@ -19,11 +21,48 @@ public class Controller {
 
     public Controller(){}
 
-    public void execute(View mainView){
+    public void execute(Database database, View mainView){
         mainView.getMenuSport().setToolTipText("<html>" + "Choice of sport" + "<br>" + "</html>");
         mainView.getMenuMode().setToolTipText("<html>" + "Mode selection" + "<br>" + "</html>");
         mainView.getMenuHelp().setToolTipText("<html>" + "Program information" + "<br>" + "</html>");
         mainView.getTextFieldFind().setToolTipText("<html>" + "The search is performed on all values of the table" + "<br>" + "</html>");
+
+        if(sportFlag == 1){
+
+        }
+        else if(sportFlag == 2){
+
+        }
+        else if (sportFlag == 3){
+
+        }
+
+        mainView.getScrollPane().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if(e.getButton() == 3){
+                    if(modeFlag){
+                        mainView.getPopupEdit().show(e.getComponent(), e.getX(), e.getY());
+                    }
+                    else{
+                        mainView.getPopupView().show(e.getComponent(), e.getX(), e.getY());
+                    }
+                }
+            }
+        });
+        mainView.getPlayersTable().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if(e.getButton() == 3){
+                    if(modeFlag){
+                        mainView.getPopupEdit().show(e.getComponent(), e.getX(), e.getY());
+                    }
+                    else{
+                        mainView.getPopupView().show(e.getComponent(), e.getX(), e.getY());
+                    }
+                }
+            }
+        });
 
         mainView.getTextFieldNumber().addKeyListener(new KeyAdapter() {
             @Override
@@ -135,7 +174,7 @@ public class Controller {
         });
 
         mainView.getButtonAdd().setEnabled(false);
-        mainView.getLabelHeader().setText("Statistic");
+        mainView.getLabelHeader().setText("Statistic soccer");
         mainView.setAllEnabled(false);
         mainView.getEditModeItem().addActionListener(new ActionListener() {
             @Override
@@ -153,7 +192,7 @@ public class Controller {
             public void actionPerformed(ActionEvent actionEvent) {
                 mainView.clearAll();
                 modeFlag = false;
-                mainView.getLabelHeader().setText("Statistic");
+                mainView.getLabelHeader().setText("Statistic soccer");
                 mainView.getButtonAdd().setEnabled(false);
                 mainView.setAllEnabled(false);
             }
@@ -167,8 +206,10 @@ public class Controller {
                     mainView.getLabelHeader().setText("Add soccer");
                     mainView.getButtonAdd().setEnabled(true);
                     mainView.setFootballEnabled(true);
+                    mainView.setColorFootball(true);
                 }
                 else{
+                    mainView.getLabelHeader().setText("Statistic soccer");
                     mainView.getButtonAdd().setEnabled(false);
                     mainView.setAllEnabled(false);
                 }
@@ -183,8 +224,10 @@ public class Controller {
                     mainView.getLabelHeader().setText("Add hockey player");
                     mainView.getButtonAdd().setEnabled(true);
                     mainView.setHockeyEnabled(true);
+                    mainView.setColorHockey(true);
                 }
                 else{
+                    mainView.getLabelHeader().setText("Statistic hockey player");
                     mainView.getButtonAdd().setEnabled(false);
                     mainView.setAllEnabled(false);
                 }
@@ -199,8 +242,10 @@ public class Controller {
                     mainView.getLabelHeader().setText("Add basketball player");
                     mainView.getButtonAdd().setEnabled(true);
                     mainView.setBasketEnabled(true);
+                    mainView.setColorBasket(true);
                 }
                 else{
+                    mainView.getLabelHeader().setText("Statistic basketball player");
                     mainView.getButtonAdd().setEnabled(false);
                     mainView.setAllEnabled(false);
                 }
@@ -222,59 +267,27 @@ public class Controller {
         mainView.getInfoAboutProg().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                JOptionPane.showMessageDialog(mainView, ("<html>" + "Information about programm:"
+                JOptionPane.showMessageDialog(mainView, ("<html>" + "Information about program:"
                         + "<br>" + "Software product version IntelliJ IDEA 2021.3.3 (Community Edition)"
                         + "<br>" + "Date of last changes in the program: 06/01/2022"
                         + "<br>" + "Author's coordinates: Alexander Igorevich Dereza, Irkutsk National Research Technical University, ISTb-20-1, e-mail: daleks19@mail.ru"
                         + "</html>"), "Message", JOptionPane.INFORMATION_MESSAGE);
             }
         });
-        mainView.addWindowListener(new WindowAdapter() {
-            /*@Override
-            public void windowClosing(WindowEvent e) {
-                Object[] options = {"Yes", "No"};
-                int confirm = JOptionPane.showOptionDialog(mainView,"Close and exit?","Exit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, null);
-                if(confirm == JOptionPane.YES_OPTION){
-                    System.exit(0);
-                    mainView.dispose();
-                }
-            }*/
-        });
-        /*mainView.getRemButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                int index = mainView.getPlayersTable().getSelectedRow();
-                try {
-                    if (index == -1) {
-                        throw new Exception("Игрок не выбран!");
-                    }
-                    else{
-                        JOptionPane.showMessageDialog(mainView, "Игрок " + mainView.getTableModel().getItem(index) + " удалён!", "Сообщение", JOptionPane.INFORMATION_MESSAGE);
-                        mainView.getTableModel().removeRow(index);
-                    }
-                    if (mainView.getTableModel().getRowCount() == 0) {
-                        mainView.getFindTextField().setEnabled(false);
-                        mainView.getRemButton().setEnabled(false);
-                        mainView.getRemAllButton().setEnabled(false);
-                    }
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(mainView, ex.getMessage(), "Предупреждение", JOptionPane.WARNING_MESSAGE); //
-                }
-            }
-        });*/
-        /*mainWindow.getRemAllButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                mainWindow.getTableModel().removeAllRow();
-                JOptionPane.showMessageDialog(mainWindow, "Все игроки удалены!", "Сообщение", JOptionPane.INFORMATION_MESSAGE);
-                mainWindow.getFindTextField().setEnabled(false);
-                mainWindow.getRemButton().setEnabled(false);
-                mainWindow.getRemAllButton().setEnabled(false);
-            }
-        });*/
+
         mainView.getButtonAdd().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
+                String tempPl = null;
+                if(sportFlag == 1){
+                    tempPl = "Soccer";
+                }
+                else if(sportFlag == 2){
+                    tempPl = "Hockey player";
+                }
+                else if (sportFlag == 3){
+                    tempPl = "Basketball player";
+                }
                 String name;
                 String surname;
                 int number;
@@ -292,6 +305,7 @@ public class Controller {
                 int rebounds;
                 int blocks;
                 try{
+                    database.initDB();
                     if (mainView.getTextFieldName().getText().isEmpty() && mainView.getTextFieldSurname().getText().isEmpty() && mainView.getTextFieldNumber().getText().isEmpty() &&
                             mainView.getTextFieldTeam().getText().isEmpty() && mainView.getTextFieldMins().getText().isEmpty() && mainView.getTextFieldGoals().getText().isEmpty() &&
                             mainView.getTextFieldAssists().getText().isEmpty() && mainView.getTextFieldYC().getText().isEmpty() && mainView.getTextFieldRC().getText().isEmpty() &&
@@ -322,13 +336,13 @@ public class Controller {
                     }
                     if(sportFlag == 1){
                         if (mainView.getTextFieldYC().getText().isEmpty()){
-                            throw new Exception(" minutes on the field is not entered!");
+                            throw new Exception(" yellow cards on the field is not entered!");
                         }
                         else if (mainView.getTextFieldRC().getText().isEmpty()){
-                            throw new Exception(" goals on the field not entered!");
+                            throw new Exception(" red cards on the field not entered!");
                         }
                         else if (mainView.getTextFieldPsPerc().getText().isEmpty()){
-                            throw new Exception(" assists on the field not entered!");
+                            throw new Exception(" success passes on the field not entered!");
                         }
                         name = mainView.getTextFieldName().getText();
                         surname = mainView.getTextFieldSurname().getText();
@@ -346,20 +360,17 @@ public class Controller {
                             throw new Exception(" number entered incorrectly! Enter a number from 1 to 99!");
                         }
                         else{
-                            //player = new SoccerPlayer(name, stickGrip, number, perc);
-                            //hockeyTeam.add(player);
+                            SoccerPlayer soccer = new SoccerPlayer(name, surname, number, role, team, mins, goals, assists, yC, rC, pS);
+                            database.addSoccer(soccer);
+                            database.addPlayer(soccer);
                         }
-                        mainView.clearAll();
                     }
                     else if(sportFlag == 2){
-                        if (mainView.getTextFieldYC().getText().isEmpty()){
-                            throw new Exception(" minutes on the field is not entered!");
+                        if (mainView.getTextFieldPenaltyTime().getText().isEmpty()){
+                            throw new Exception(" penalty time on the field not entered!");
                         }
-                        else if (mainView.getTextFieldRC().getText().isEmpty()){
-                            throw new Exception(" goals on the field not entered!");
-                        }
-                        else if (mainView.getTextFieldPsPerc().getText().isEmpty()){
-                            throw new Exception(" assists on the field not entered!");
+                        else if (mainView.getTextFieldPenaltyCount().getText().isEmpty()){
+                            throw new Exception(" penalty count on the field not entered!");
                         }
                         name = mainView.getTextFieldName().getText();
                         surname = mainView.getTextFieldSurname().getText();
@@ -369,28 +380,26 @@ public class Controller {
                         mins = Integer.parseInt(mainView.getTextFieldMins().getText());
                         goals = Integer.parseInt(mainView.getTextFieldGoals().getText());
                         assists = Integer.parseInt(mainView.getTextFieldAssists().getText());
-                        yC = Integer.parseInt(mainView.getTextFieldYC().getText());
-                        rC = Integer.parseInt(mainView.getTextFieldRC().getText());
-                        pS = Integer.parseInt(mainView.getTextFieldPsPerc().getText());
+                        stickGrip = (String) mainView.getComboStickGrip().getSelectedItem();
+                        penTime = Integer.parseInt(mainView.getTextFieldPenaltyTime().getText());
+                        penCount = Integer.parseInt(mainView.getTextFieldPenaltyCount().getText());
                         if (number < 1 || number > 99){
                             mainView.getTextFieldNumber().setText(null);
                             throw new Exception(" number entered incorrectly! Enter a number from 1 to 99!");
                         }
                         else{
-                            //player = new SoccerPlayer(name, stickGrip, number, perc);
-                            //hockeyTeam.add(player);
+                            HockeyPlayer hockeyPlayer = new HockeyPlayer( name, surname, number, role, team, mins, goals, assists,stickGrip, penTime, penCount);
+                            database.addHockeyPl(hockeyPlayer);
+                            database.addPlayer(hockeyPlayer);
                         }
-                        mainView.clearAll();
+
                     }
                     else if (sportFlag == 3){
-                        if (mainView.getTextFieldYC().getText().isEmpty()){
-                            throw new Exception(" minutes on the field is not entered!");
+                        if (mainView.getTextFieldRebounds().getText().isEmpty()){
+                            throw new Exception(" redounds on the field not entered!");
                         }
-                        else if (mainView.getTextFieldRC().getText().isEmpty()){
-                            throw new Exception(" goals on the field not entered!");
-                        }
-                        else if (mainView.getTextFieldPsPerc().getText().isEmpty()){
-                            throw new Exception(" assists on the field not entered!");
+                        else if (mainView.getTextFieldBlocks().getText().isEmpty()){
+                            throw new Exception(" blocks on the field not entered!");
                         }
                         name = mainView.getTextFieldName().getText();
                         surname = mainView.getTextFieldSurname().getText();
@@ -400,40 +409,125 @@ public class Controller {
                         mins = Integer.parseInt(mainView.getTextFieldMins().getText());
                         goals = Integer.parseInt(mainView.getTextFieldGoals().getText());
                         assists = Integer.parseInt(mainView.getTextFieldAssists().getText());
-                        yC = Integer.parseInt(mainView.getTextFieldYC().getText());
-                        rC = Integer.parseInt(mainView.getTextFieldRC().getText());
-                        pS = Integer.parseInt(mainView.getTextFieldPsPerc().getText());
+                        rebounds = Integer.parseInt(mainView.getTextFieldRebounds().getText());
+                        blocks = Integer.parseInt(mainView.getTextFieldBlocks().getText());
                         if (number < 1 || number > 99){
                             mainView.getTextFieldNumber().setText(null);
-                            throw new Exception("number entered incorrectly! Enter a number from 1 to 99!");
+                            throw new Exception(" number entered incorrectly! Enter a number from 1 to 99!");
                         }
                         else{
-                            //player = new SoccerPlayer(name, stickGrip, number, perc);
-                            //hockeyTeam.add(player);
+                            BasketballPlayer basketballPlayer = new BasketballPlayer(name, surname, number, role, team, mins, goals, assists, rebounds, blocks);
+                            database.addBasketPl(basketballPlayer);
+                            database.addPlayer(basketballPlayer);
                         }
-                        mainView.clearAll();
                     }
+                    mainView.clearAll();
+                    mainView.getTableModel().fireTableDataChanged();
+                    database.closeDB();
                 }
                 catch (Exception ex){
-                    if(sportFlag == 1){
-                        JOptionPane.showMessageDialog(mainView, "Soccer" + ex.getMessage(), "Warning", JOptionPane.WARNING_MESSAGE);
-                    }
-                    else if(sportFlag == 2){
-                        JOptionPane.showMessageDialog(mainView, "Hockey player" + ex.getMessage(), "Warning", JOptionPane.WARNING_MESSAGE);
-                    }
-                    else if (sportFlag == 3){
-                        JOptionPane.showMessageDialog(mainView, "Basketball player" + ex.getMessage(), "Warning", JOptionPane.WARNING_MESSAGE);
-                    }
+                    JOptionPane.showMessageDialog(mainView, tempPl + ex.getMessage(), "Warning", JOptionPane.WARNING_MESSAGE);
                 }
             }
         });
+        mainView.getPopupDeleteItem().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                String tempPl = null;
+                if(sportFlag == 1){
+                    tempPl = "Soccer";
+                }
+                else if(sportFlag == 2){
+                    tempPl = "Hockey player";
+                }
+                else if (sportFlag == 3){
+                    tempPl = "Basketball player";
+                }
+                int row = mainView.getPlayersTable().getSelectedRow();
+                String cell = mainView.getPlayersTable().getModel().getValueAt(row,0).toString();
+                //System.out.println(cell);
+                try {
+                    database.initDB();
+                    if (row == -1) {
+                        throw new Exception(" not selected!");
+                    }
+                    else{
+
+                        database.deletePl(row); //query
+                        database.deletePlayer(row); //db
+                        mainView.getTableModel().removeRow(row);
+                        database.update();
+
+                        mainView.getTableModel().fireTableDataChanged();
+                        JOptionPane.showMessageDialog(null, "success");
+                    }
+                    /*if (mainView.getTableModel().getRowCount() == 0) {
+                        mainView.clearAll();
+                    }*/
+                    database.closeDB();
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, "unlucky");
+                    JOptionPane.showMessageDialog(mainView, tempPl + ex.getMessage(), "Warning", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        });
+
+        mainView.getPlayersTable().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if(modeFlag){
+                    if(e.getButton() == 1){
+                        int index = mainView.getPlayersTable().convertRowIndexToModel(mainView.getPlayersTable().getSelectedRow());
+                        //System.out.println(index);
+                        /*try {
+                            database.getPlayer(index);
+                        } catch (SQLException ex) {
+                            ex.printStackTrace();
+                        }*/
+                        if(sportFlag == 1){
+                            mainView.setFootballEnabled(true);
+                        }
+                        else if(sportFlag == 2){
+                            mainView.setHockeyEnabled(true);
+                        }
+                        else if (sportFlag == 3){
+                            mainView.setBasketEnabled(true);
+                        }
+                    }
+                }
+
+            }
+        });
+        /*mainView.addTableModelListener(new TableModelListener() {
+            @Override
+            public void tableChanged(TableModelEvent tableModelEvent) {
+                int index = mainView.getPlayersTable().convertRowIndexToModel(mainView.getPlayersTable().getSelectedRow());
+                System.out.println(index);
+                try {
+                    database.getPlayer(index);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                if(sportFlag == 1){
+
+                }
+                else if(sportFlag == 2){
+
+                }
+                else if (sportFlag == 3){
+
+                }
+
+
+            }
+        });*/
         mainView.getTextFieldFind().getDocument().addDocumentListener(new DocumentListener() {
             private void newFilter(){
                 TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(mainView.getTableModel());
                 mainView.getPlayersTable().setRowSorter(sorter);
                 RowFilter<TableModel, Object>player= null;
                 try {
-                    player = RowFilter.regexFilter(mainView.getTextFieldFind().getText());
+                    player = RowFilter.regexFilter("(?i)" + mainView.getTextFieldFind().getText());
                 }
                 catch (PatternSyntaxException e) {
                     return;
@@ -452,6 +546,17 @@ public class Controller {
             public void changedUpdate(DocumentEvent e) {
                 newFilter();
             }
+        });
+        mainView.addWindowListener(new WindowAdapter() {
+            /*@Override
+            public void windowClosing(WindowEvent e) {
+                Object[] options = {"Yes", "No"};
+                int confirm = JOptionPane.showOptionDialog(mainView,"Close and exit?","Exit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, null);
+                if(confirm == JOptionPane.YES_OPTION){
+                    System.exit(0);
+                    mainView.dispose();
+                }
+            }*/
         });
     }
 }

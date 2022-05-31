@@ -1,10 +1,13 @@
 package DB;
 
+import GUI.TableModel;
+import GUI.View;
 import Model.BasketballPlayer;
 import Model.HockeyPlayer;
 import Model.Player;
 import Model.SoccerPlayer;
 
+import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -27,7 +30,7 @@ public abstract class DBQueries {
                 "(ID_sport INTEGER PRIMARY KEY UNIQUE NOT NULL CHECK(ID_sport > 0)," +
                 "Kind_of_sport TEXT NOT NULL);");
         stmt.execute();
-        stmt = con.prepareStatement("CREATE TABLE if not exists Players " +
+        stmt = con.prepareStatement("CREATE TABLE if not exists Players "    +
                 "(ID_player INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL CHECK(ID_player > 0)," +
                 "ID_sport INTEGER NOT NULL CHECK(ID_sport > 0)," +
                 "Name TEXT NOT NULL," +
@@ -129,6 +132,13 @@ public abstract class DBQueries {
         stmt.close();
     }*/
 
+    public int maxID() throws SQLException {
+       stmt = con.prepareStatement("SELECT MAX(ID_player) FROM Players");
+       rs = stmt.executeQuery();
+       int id = rs.getInt("MAX(ID_player)") + 1;
+       return  id;
+   }
+
     public void addSoccer(SoccerPlayer soccer) throws SQLException{
         String surname = soccer.getSurname();
         String name = soccer.getName();
@@ -143,7 +153,7 @@ public abstract class DBQueries {
         int psPerc = soccer.getPsPerc();
         int idSport = 1;
         stmt = con.prepareStatement("INSERT INTO Players" +
-                "(ID_sport, " +
+                "(ID_sport," +
                 "Name, " +
                 "Surname, " +
                 "Number, " +
@@ -280,11 +290,31 @@ public abstract class DBQueries {
         stmt.close();
     }
 
-    public void deletePlayer(int id) throws SQLException{
-        stmt = con.prepareStatement("DELETE FROM Statistics WHERE ID_player = ?" +
-                "DELETE FROM Players WHERE ID_player = ?");
+    public void deletePl(int id) throws SQLException {
+        stmt = con.prepareStatement("DELETE FROM Statistics WHERE ID_player = ?");
         stmt.setObject(1, id);
-        stmt.executeUpdate();
+        stmt.execute();
+        stmt = con.prepareStatement("DELETE FROM Players WHERE ID_player = ?");
+        stmt.setObject(1, id);
+        stmt.execute();
+        stmt.close();
+    }
+
+    public void update() throws SQLException{
+        try{
+            stmt = con.prepareStatement("SELECT * FROM Playerslist");
+            rs = stmt.executeQuery();
+            stmt.close();
+        }
+        catch(Exception ex){
+            JOptionPane.showMessageDialog(null, ex);
+        }
+    }
+
+    public void getAllSoccers(int id) throws SQLException {
+        stmt = con.prepareStatement("SELECT * FROM Playerslist WHERE [ID sport] = ?");
+        stmt.setObject(1, id);
+        stmt.execute();
         stmt.close();
     }
 
@@ -408,7 +438,43 @@ public abstract class DBQueries {
         stmt.close();
     }
 
-    public ArrayList<Player> getPlayerList(){
+    public void getPlayer(int id) throws SQLException{
+        View view = null;
+        stmt = con.prepareStatement("SELECT * FROM Playerslist WHERE [ID player] = ?");
+        stmt.setObject(1, id);
+        rs = stmt.executeQuery();
+
+        int idSport = rs.getInt("[ID sport]");
+        //view.getTextFieldName().setText(rs.getString("[Name]"));
+        String name = rs.getString("[Name]");
+        System.out.println(name);
+        String surname = rs.getString("[Surname]");
+        System.out.println(surname);
+        int number = rs.getInt("[Number]");
+        String role = rs.getString("[Role]");
+        String team= rs.getString("[Team]");
+        int mins = rs.getInt("[Minutes]");
+        int goals = rs.getInt("[Goals]");
+        int assists = rs.getInt("[Assists]");
+        if(idSport == 1){
+            int yelCard = rs.getInt("[Yellow cards]");
+            int redCard = rs.getInt("[Red cards]");
+            int psPerc = rs.getInt("[Success passes]");
+        }
+        else if(idSport == 2){
+            String stickGrip = rs.getString("[Stick grip]");
+            int redCard = rs.getInt("[Penalty time]");
+            int psPerc = rs.getInt("[Penalty count]");
+        }
+        else if(idSport == 3){
+            int rebounds = rs.getInt("[Rebounds]");
+            int blocks =rs.getInt("[Blocks]");
+        }
+        stmt.executeUpdate();
+        stmt.close();
+    }
+
+    public ArrayList<Player> getPlayerList() {
         ArrayList<Player> allPlayerList = new ArrayList<>();
         String kindSport = null;
         try{
@@ -465,7 +531,7 @@ public abstract class DBQueries {
         return allPlayerList;
     }
 
-    public void closeDB() throws SQLException{
+    public void closeDB() throws SQLException {
         con.close();
     }
 }
