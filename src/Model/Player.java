@@ -1,6 +1,7 @@
 package Model;
 
 public abstract class Player {
+    protected int ID;
     protected String surname;
     protected String name;
     protected int number;
@@ -10,7 +11,8 @@ public abstract class Player {
     protected int goals;
     protected int assists;
 
-    public Player(String name, String surname, int number, String role, String team, int mins, int goals, int assists){
+    public Player(int ID, String name, String surname, int number, String role, String team, int mins, int goals, int assists){
+        this.ID = ID;
         this.surname = surname;
         this.name = name;
         this.number = number;
@@ -20,6 +22,8 @@ public abstract class Player {
         this.goals = goals;
         this.assists =assists;
     }
+
+    public int getID() { return ID; }
 
     public String getSurname(){
         return surname;
@@ -56,6 +60,8 @@ public abstract class Player {
     public int getAssists() {
         return assists;
     }
+
+    public void setID(int ID) { this.ID = ID; }
 
     public void setSurname(String surname) {
         this.surname = surname;

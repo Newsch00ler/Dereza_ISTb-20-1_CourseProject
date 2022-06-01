@@ -79,7 +79,7 @@ public class View extends JFrame {
 
     private JComboBox comboRole;
     private JComboBox comboStickGrip;
-    private JButton buttonAdd;
+    private JButton button;
 
     private Font font;
 
@@ -89,6 +89,7 @@ public class View extends JFrame {
     private Color colorHockey2 = new Color(142, 142, 236);
     private Color colorBasket1 = new Color(220, 93, 14);
     private Color colorBasket2 = new Color(225, 154, 116);
+    private Color colorStat = new Color(173, 167, 167);
 
     private String[] itemsRolesFH = {
             "Keeper",
@@ -324,9 +325,9 @@ public class View extends JFrame {
         contInput.add(textFieldBlocks);
         contInput.setPreferredSize(new Dimension(300, 450));
         contRight.add(contInput);
-        buttonAdd = new JButton("Add");
-        buttonAdd.setAlignmentX(0.5F);
-        contRight.add(buttonAdd);
+        button = new JButton("Add");
+        button.setAlignmentX(0.5F);
+        contRight.add(button);
 
         setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
         setLayout(new GridBagLayout());
@@ -422,8 +423,8 @@ public class View extends JFrame {
 
     public JTextField getTextFieldBlocks() { return textFieldBlocks; }
 
-    public JButton getButtonAdd() {
-        return buttonAdd;
+    public JButton getButton() {
+        return button;
     }
 
     public TableModel getTableModel() { return tableModel; }
@@ -606,15 +607,15 @@ public class View extends JFrame {
     }
 
     public void setAllEnabled(boolean b) {
-        menuBar.setBackground(colorFootball1);
-        footballItem.setBackground(colorFootball2);
-        hockeyItem.setBackground(colorFootball2);
-        basketItem.setBackground(colorFootball2);
-        editModeItem.setBackground(colorFootball2);
-        viewModeItem.setBackground(colorFootball2);
-        helpInfo.setBackground(colorFootball2);
-        infoAboutProg.setBackground(colorFootball2);
-        playersTable.setBackground(colorFootball2);
+        menuBar.setBackground(colorStat);
+        footballItem.setBackground(colorStat);
+        hockeyItem.setBackground(colorStat);
+        basketItem.setBackground(colorStat);
+        editModeItem.setBackground(colorStat);
+        viewModeItem.setBackground(colorStat);
+        helpInfo.setBackground(colorStat);
+        infoAboutProg.setBackground(colorStat);
+        playersTable.setBackground(colorStat);
         textFieldName.setEnabled(b);
         textFieldSurname.setEnabled(b);
         comboRole.removeAllItems();

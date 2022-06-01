@@ -9,7 +9,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class TableModel extends AbstractTableModel implements MouseListener {
-    private String[] columnName = {"Name", "Surname", "Number", "Role", "Team","Minutes", "Goals", "Assists"};
+    private String[] columnName = {"ID", "Name", "Surname", "Number", "Role", "Team","Minutes", "Goals", "Assists"};
     private Database database;
 
     public TableModel(Database database){
@@ -21,20 +21,22 @@ public class TableModel extends AbstractTableModel implements MouseListener {
         Player player = database.getAllPlayerList().get(rowIndex);
         switch (columnIndex){
             case 0:
-                return player.getName();
+                return player.getID();
             case 1:
-                return player.getSurname();
+                return player.getName();
             case 2:
-                return player.getNumber();
+                return player.getSurname();
             case 3:
-                return player.getRole();
+                return player.getNumber();
             case 4:
-                return player.getTeam();
+                return player.getRole();
             case 5:
-                return player.getMins();
+                return player.getTeam();
             case 6:
-                return player.getGoals();
+                return player.getMins();
             case 7:
+                return player.getGoals();
+            case 8:
                 return player.getAssists();
         }
         return null;

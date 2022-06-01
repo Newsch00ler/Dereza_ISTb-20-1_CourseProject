@@ -1,6 +1,5 @@
 package DB;
 
-import GUI.TableModel;
 import GUI.View;
 import Model.BasketballPlayer;
 import Model.HockeyPlayer;
@@ -318,7 +317,68 @@ public abstract class DBQueries {
         stmt.close();
     }
 
-    public void updatePlayerName(int id, String name) throws SQLException {
+    public void updateSoccer(String name, String surname, int number, String role, String team, int mins, int goals, int assists, int yc, int rc, int succPasses, int ID) throws SQLException {
+        stmt = con.prepareStatement("UPDATE Statistics set Minutes = ?, Goals = ?, Assists = ?, YC = ?, RC = ?, Succ_passes = ? WHERE ID_player = ?");
+        stmt.setObject(1, mins);
+        stmt.setObject(2, goals);
+        stmt.setObject(3, assists);
+        stmt.setObject(4, yc);
+        stmt.setObject(5, rc);
+        stmt.setObject(6, succPasses);
+        stmt.setObject(7, ID);
+        stmt.executeUpdate();
+        stmt = con.prepareStatement("UPDATE Players set Name = ?, Surname = ?, Number = ?, Role = ?, Team = ? WHERE ID_player = ?");
+        stmt.setObject(1, name);
+        stmt.setObject(2, surname);
+        stmt.setObject(3, number);
+        stmt.setObject(4, role);
+        stmt.setObject(5, team);
+        stmt.setObject(6, ID);
+        stmt.executeUpdate();
+        stmt.close();
+    }
+
+    public void updateHockeyPl(String name, String surname, int number, String role, String team, int mins, int goals, int assists, int penTime, int penCount, int ID) throws SQLException {
+        stmt = con.prepareStatement("UPDATE Statistics set Minutes = ?, Goals = ?, Assists = ?, Penalty_time = ?, Penalty_count = ? WHERE ID_player = ?");
+        stmt.setObject(1, mins);
+        stmt.setObject(2, goals);
+        stmt.setObject(3, assists);
+        stmt.setObject(4, penTime);
+        stmt.setObject(5, penCount);
+        stmt.setObject(6, ID);
+        stmt.executeUpdate();
+        stmt = con.prepareStatement("UPDATE Players set Name = ?, Surname = ?, Number = ?, Role = ?, Team = ? WHERE ID_player = ?");
+        stmt.setObject(1, name);
+        stmt.setObject(2, surname);
+        stmt.setObject(3, number);
+        stmt.setObject(4, role);
+        stmt.setObject(5, team);
+        stmt.setObject(6, ID);
+        stmt.executeUpdate();
+        stmt.close();
+    }
+
+    public void updateBasketPl(String name, String surname, int number, String role, String team, int mins, int goals, int assists, int rebounds, int blocks, int ID) throws SQLException {
+        stmt = con.prepareStatement("UPDATE Statistics set Minutes = ?, Goals = ?, Assists = ?, Rebounds = ?, Blocks = ? WHERE ID_player = ?");
+        stmt.setObject(1, mins);
+        stmt.setObject(2, goals);
+        stmt.setObject(3, assists);
+        stmt.setObject(4, rebounds);
+        stmt.setObject(5, blocks);
+        stmt.setObject(6, ID);
+        stmt.executeUpdate();
+        stmt = con.prepareStatement("UPDATE Players set Name = ?, Surname = ?, Number = ?, Role = ?, Team = ? WHERE ID_player = ?");
+        stmt.setObject(1, name);
+        stmt.setObject(2, surname);
+        stmt.setObject(3, number);
+        stmt.setObject(4, role);
+        stmt.setObject(5, team);
+        stmt.setObject(6, ID);
+        stmt.executeUpdate();
+        stmt.close();
+    }
+
+    /*public void updatePlayerName(int id, String name) throws SQLException {
         stmt = con.prepareStatement("UPDATE Players set Name = ? WHERE ID_player = ?");
         stmt.setObject(1, name);
         stmt.setObject(2, id);
@@ -436,42 +496,79 @@ public abstract class DBQueries {
         stmt.setObject(2, id);
         stmt.executeUpdate();
         stmt.close();
-    }
+    }*/
 
-    public void getPlayer(int id) throws SQLException{
-        View view = null;
+
+
+    public SoccerPlayer getSoccer(int id) throws SQLException{
+        SoccerPlayer soccerPlayer = null;
         stmt = con.prepareStatement("SELECT * FROM Playerslist WHERE [ID player] = ?");
         stmt.setObject(1, id);
         rs = stmt.executeQuery();
-
-        int idSport = rs.getInt("[ID sport]");
-        //view.getTextFieldName().setText(rs.getString("[Name]"));
-        String name = rs.getString("[Name]");
-        System.out.println(name);
-        String surname = rs.getString("[Surname]");
-        System.out.println(surname);
-        int number = rs.getInt("[Number]");
-        String role = rs.getString("[Role]");
-        String team= rs.getString("[Team]");
-        int mins = rs.getInt("[Minutes]");
-        int goals = rs.getInt("[Goals]");
-        int assists = rs.getInt("[Assists]");
-        if(idSport == 1){
-            int yelCard = rs.getInt("[Yellow cards]");
-            int redCard = rs.getInt("[Red cards]");
-            int psPerc = rs.getInt("[Success passes]");
+        while(rs.next()){
+            soccerPlayer = new SoccerPlayer(
+                    rs.getInt("ID player"),
+                    rs.getString("Name"),
+                    rs.getString("Surname"),
+                    rs.getInt("Number"),
+                    rs.getString("Role"),
+                    rs.getString("Team"),
+                    rs.getInt("Minutes"),
+                    rs.getInt("Goals"),
+                    rs.getInt("Assists"),
+                    rs.getInt("Yellow cards"),
+                    rs.getInt("Red cards"),
+                    rs.getInt("Success passes"));
         }
-        else if(idSport == 2){
-            String stickGrip = rs.getString("[Stick grip]");
-            int redCard = rs.getInt("[Penalty time]");
-            int psPerc = rs.getInt("[Penalty count]");
-        }
-        else if(idSport == 3){
-            int rebounds = rs.getInt("[Rebounds]");
-            int blocks =rs.getInt("[Blocks]");
-        }
-        stmt.executeUpdate();
         stmt.close();
+        return soccerPlayer;
+    }
+
+    public HockeyPlayer getHockeyPl(int id) throws SQLException{
+        HockeyPlayer hockeyPlayer = null;
+        stmt = con.prepareStatement("SELECT * FROM Playerslist WHERE [ID player] = ?");
+        stmt.setObject(1, id);
+        rs = stmt.executeQuery();
+        while (rs.next()){
+            hockeyPlayer = new HockeyPlayer(
+                    rs.getInt("ID player"),
+                    rs.getString("Name"),
+                    rs.getString("Surname"),
+                    rs.getInt("Number"),
+                    rs.getString("Role"),
+                    rs.getString("Team"),
+                    rs.getInt("Minutes"),
+                    rs.getInt("Goals"),
+                    rs.getInt("Assists"),
+                    rs.getString("Stick grip"),
+                    rs.getInt("Penalty time"),
+                    rs.getInt("Penalty count"));
+        }
+        stmt.close();
+        return hockeyPlayer;
+    }
+
+    public BasketballPlayer getBasketPl(int id) throws SQLException{
+        BasketballPlayer basketballPlayer = null;
+        stmt = con.prepareStatement("SELECT * FROM Playerslist WHERE [ID player] = ?");
+        stmt.setObject(1, id);
+        rs = stmt.executeQuery();
+        while (rs.next()){
+            basketballPlayer = new BasketballPlayer(
+                    rs.getInt("ID player"),
+                    rs.getString("Name"),
+                    rs.getString("Surname"),
+                    rs.getInt("Number"),
+                    rs.getString("Role"),
+                    rs.getString("Team"),
+                    rs.getInt("Minutes"),
+                    rs.getInt("Goals"),
+                    rs.getInt("Assists"),
+                    rs.getInt("Rebounds"),
+                    rs.getInt("Blocks"));
+        }
+        stmt.close();
+        return basketballPlayer;
     }
 
     public ArrayList<Player> getPlayerList() {
@@ -484,6 +581,7 @@ public abstract class DBQueries {
                 kindSport = rs.getString("Kind of sport");
                 if(kindSport.equals("Football")){
                     allPlayerList.add(new SoccerPlayer(
+                            rs.getInt("ID player"),
                             rs.getString("Name"),
                             rs.getString("Surname"),
                             rs.getInt("Number"),
@@ -498,6 +596,7 @@ public abstract class DBQueries {
                 }
                 else if(kindSport.equals("Hockey")){
                     allPlayerList.add(new HockeyPlayer(
+                            rs.getInt("ID player"),
                             rs.getString("Name"),
                             rs.getString("Surname"),
                             rs.getInt("Number"),
@@ -512,6 +611,7 @@ public abstract class DBQueries {
                 }
                 else if(kindSport.equals("Basketball")){
                     allPlayerList.add(new BasketballPlayer(
+                            rs.getInt("ID player"),
                             rs.getString("Name"),
                             rs.getString("Surname"),
                             rs.getInt("Number"),
