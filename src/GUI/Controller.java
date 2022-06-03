@@ -55,6 +55,7 @@ public class Controller {
                         mainView.getButton().setText("Add");
                     }
                     mainView.getPlayersTable().clearSelection();
+                    mainView.clearAll();
                 }
             }
         });
@@ -209,8 +210,9 @@ public class Controller {
             }
         });
 
-        mainView.getButton().setEnabled(false);
+        //mainView.getButton().setVisible(false);
         mainView.getLabelHeader().setText("Statistic soccer");
+        mainView.getButton().setEnabled(false);
         mainView.setAllEnabled(false);
         mainView.getEditModeItem().addActionListener(new ActionListener() {
             @Override
@@ -220,6 +222,7 @@ public class Controller {
                 modeFlag = true;
                 sportFlag = 1;
                 mainView.getLabelHeader().setText("Add soccer");
+                mainView.getButton().setVisible(true);
                 mainView.getButton().setEnabled(true);
                 mainView.setFootballEnabled(true);
                 mainView.setColorFootball(true);
@@ -231,6 +234,19 @@ public class Controller {
                 mainView.clearAll();
                 modeFlag = false;
                 mainView.getLabelHeader().setText("Statistic soccer");
+                //database.getAllPlayerList().clear();
+                try {
+                    database.initDB();
+                    database.getAllSoccersList().clear();
+                    database.setAllSoccersList(database.getAllSoccersList());
+                    mainView.getTableModel().update();
+                    mainView.clearAll();
+                    database.closeDB();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                mainView.getTableModel().update();
+                //mainView.getButton().setVisible(false);
                 mainView.getButton().setEnabled(false);
                 mainView.setColorFootball(true);
                 mainView.setAllEnabled(false);
@@ -327,22 +343,6 @@ public class Controller {
                 else if (sportFlag == 3){
                     tempPl = "Basketball player";
                 }
-                /*String name;
-                String surname;
-                int number;
-                String role;
-                String team;
-                int mins;
-                int goals;
-                int assists;
-                int yC;
-                int rC;
-                int pS;
-                String stickGrip;
-                int penTime;
-                int penCount;
-                int rebounds;
-                int blocks;*/
                 if(mainView.getButton().getText().equals("Add")){
                     try{
                         database.initDB();
@@ -449,7 +449,7 @@ public class Controller {
                             }
                         }
                         database.getAllPlayerList().clear();
-                        database.setAllPlayerList(database.getPlayerList());
+                        database.setAllPlayerList(database.getAllPlayersList());
                         mainView.getTableModel().update();
                         mainView.clearAll();
                         database.closeDB();
@@ -459,51 +459,37 @@ public class Controller {
                     }
                 }
                 else{
-                    int row;
-                    String cell;
                     try{
                         database.initDB();
                         row = mainView.getPlayersTable().getSelectedRow();
                         cell = mainView.getPlayersTable().getModel().getValueAt(row,0).toString();
-                        /*mainView.getTextFieldName().setText(name);
-                        mainView.getTextFieldSurname().setText(surname);
-                        mainView.getTextFieldNumber().setText(number);
-                        mainView.getComboRole().setSelectedItem(role);
-                        mainView.getTextFieldTeam().setText(team);*/
                         if(sportFlag == 1){
-                            name = database.getSoccer(Integer.parseInt(cell)).getName();
-                            mainView.getTextFieldName().setText(name);
-                            surname = database.getSoccer(Integer.parseInt(cell)).getSurname();
-                            mainView.getTextFieldSurname().setText(surname);
-                            number = database.getSoccer(Integer.parseInt(cell)).getNumber();
-                            mainView.getTextFieldNumber().setText(String.valueOf(number));
-                            role = database.getSoccer(Integer.parseInt(cell)).getRole();
-                            mainView.getComboRole().setSelectedItem(role);
-                            team = database.getSoccer(Integer.parseInt(cell)).getTeam();
-                            mainView.getTextFieldTeam().setText(team);
-                            mins = database.getSoccer(Integer.parseInt(cell)).getMins();
-                            mainView.getTextFieldMins().setText(String.valueOf(mins));
-                            goals = database.getSoccer(Integer.parseInt(cell)).getGoals();
-                            mainView.getTextFieldGoals().setText(String.valueOf(goals));
-                            assists = database.getSoccer(Integer.parseInt(cell)).getAssists();
-                            mainView.getTextFieldAssists().setText(String.valueOf(assists));
-                            yC = database.getSoccer(Integer.parseInt(cell)).getYelCard();
-                            mainView.getTextFieldYC().setText(String.valueOf(yC));
-                            rC = database.getSoccer(Integer.parseInt(cell)).getRedCard();
-                            mainView.getTextFieldRC().setText(String.valueOf(rC));
-                            pS = database.getSoccer(Integer.parseInt(cell)).getPsPerc();
-                            mainView.getTextFieldPsPerc().setText(String.valueOf(pS));
-                            //System.out.println(database.getSoccer(Integer.parseInt(cell)));
+                            database.updateSoccer(mainView.getTextFieldName().getText(), mainView.getTextFieldSurname().getText(),  (Integer.parseInt(mainView.getTextFieldNumber().getText())),
+                                    mainView.getComboRole().getSelectedItem().toString(), mainView.getTextFieldTeam().getText(), (Integer.parseInt(mainView.getTextFieldMins().getText())),
+                                    (Integer.parseInt(mainView.getTextFieldGoals().getText())), (Integer.parseInt(mainView.getTextFieldAssists().getText())),
+                                    (Integer.parseInt(mainView.getTextFieldYC().getText())), (Integer.parseInt(mainView.getTextFieldRC().getText())),
+                                    (Integer.parseInt(mainView.getTextFieldPsPerc().getText())), (Integer.parseInt(cell)));
                             mainView.getLabelHeader().setText("Add soccer");
                         }
                         else if(sportFlag == 2){
-                            //System.out.println(database.getHockeyPl(Integer.parseInt(cell)));
+                            database.updateHockeyPl(mainView.getTextFieldName().getText(), mainView.getTextFieldSurname().getText(),  (Integer.parseInt(mainView.getTextFieldNumber().getText())),
+                                    mainView.getComboRole().getSelectedItem().toString(), mainView.getTextFieldTeam().getText(), (Integer.parseInt(mainView.getTextFieldMins().getText())),
+                                    (Integer.parseInt(mainView.getTextFieldGoals().getText())), (Integer.parseInt(mainView.getTextFieldAssists().getText())),
+                                    mainView.getComboStickGrip().getSelectedItem().toString(), (Integer.parseInt(mainView.getTextFieldPenaltyTime().getText())),
+                                    (Integer.parseInt(mainView.getTextFieldPenaltyCount().getText())), (Integer.parseInt(cell)));
                             mainView.getLabelHeader().setText("Add hockey player");
                         }
                         else if (sportFlag == 3){
-                            //System.out.println(database.getBasketPl(Integer.parseInt(cell)));
+                            database.updateBasketPl(mainView.getTextFieldName().getText(), mainView.getTextFieldSurname().getText(),  (Integer.parseInt(mainView.getTextFieldNumber().getText())),
+                                    mainView.getComboRole().getSelectedItem().toString(), mainView.getTextFieldTeam().getText(), (Integer.parseInt(mainView.getTextFieldMins().getText())),
+                                    (Integer.parseInt(mainView.getTextFieldGoals().getText())), (Integer.parseInt(mainView.getTextFieldAssists().getText())),
+                                    (Integer.parseInt(mainView.getTextFieldRebounds().getText())), (Integer.parseInt(mainView.getTextFieldBlocks().getText())), (Integer.parseInt(cell)));
                             mainView.getLabelHeader().setText("Add basketball player");
                         }
+                        database.getAllPlayerList().clear();
+                        database.setAllPlayerList(database.getAllPlayersList());
+                        mainView.getTableModel().update();
+                        mainView.clearAll();
                         database.closeDB();
                     }
                     catch (Exception ex){
@@ -531,8 +517,6 @@ public class Controller {
                     mainView.getLabelHeader().setText("Add basketball player");
                     tempPl = "Basketball player";
                 }
-                int row;
-                String cell;
                 //System.out.println(cell);
                 try {
                     database.initDB();
@@ -571,57 +555,65 @@ public class Controller {
                 else if (sportFlag == 3){
                     tempPl = "basketball player";
                 }
-                if(modeFlag){
-                    if(SwingUtilities.isLeftMouseButton(e)){
+                row = mainView.getPlayersTable().getSelectedRow();
+                cell = mainView.getPlayersTable().getModel().getValueAt(row,0).toString();
+                if(SwingUtilities.isLeftMouseButton(e)){
+                    try {
+                        database.initDB();
+                        name = database.getSoccer(Integer.parseInt(cell)).getName();
+                        mainView.getTextFieldName().setText(name);
+                        surname = database.getSoccer(Integer.parseInt(cell)).getSurname();
+                        mainView.getTextFieldSurname().setText(surname);
+                        number = database.getSoccer(Integer.parseInt(cell)).getNumber();
+                        mainView.getTextFieldNumber().setText(String.valueOf(number));
+                        role = database.getSoccer(Integer.parseInt(cell)).getRole();
+                        mainView.getComboRole().setSelectedItem(role);
+                        team = database.getSoccer(Integer.parseInt(cell)).getTeam();
+                        mainView.getTextFieldTeam().setText(team);
+                        mins = database.getSoccer(Integer.parseInt(cell)).getMins();
+                        mainView.getTextFieldMins().setText(String.valueOf(mins));
+                        goals = database.getSoccer(Integer.parseInt(cell)).getGoals();
+                        mainView.getTextFieldGoals().setText(String.valueOf(goals));
+                        assists = database.getSoccer(Integer.parseInt(cell)).getAssists();
+                        mainView.getTextFieldAssists().setText(String.valueOf(assists));
+                        if(sportFlag == 1){
+                            yC = database.getSoccer(Integer.parseInt(cell)).getYelCard();
+                            mainView.getTextFieldYC().setText(String.valueOf(yC));
+                            rC = database.getSoccer(Integer.parseInt(cell)).getRedCard();
+                            mainView.getTextFieldRC().setText(String.valueOf(rC));
+                            pS = database.getSoccer(Integer.parseInt(cell)).getPsPerc();
+                            mainView.getTextFieldPsPerc().setText(String.valueOf(pS));
+                        }
+                        else if(sportFlag == 2){
+                            stickGrip = database.getHockeyPl(Integer.parseInt(cell)).getStickGrip();
+                            /*if(stickGrip.equals("Left")){
+                                mainView.getComboStickGrip().setSelectedItem(0);
+                            }
+                            else{*/
+                                mainView.getComboStickGrip().setSelectedItem(stickGrip);
+                            //}
+                            penTime = database.getHockeyPl(Integer.parseInt(cell)).getPenaltyTime();
+                            mainView.getTextFieldPenaltyTime().setText(String.valueOf(penTime));
+                            penCount = database.getHockeyPl(Integer.parseInt(cell)).getCountPenalty();
+                            mainView.getTextFieldPenaltyCount().setText(String.valueOf(penCount));
+                        }
+                        else if (sportFlag == 3){
+                            mainView.getTextFieldAssists().setText(String.valueOf(assists));
+                            rebounds = database.getBasketPl(Integer.parseInt(cell)).getRebounds();
+                            mainView.getTextFieldRebounds().setText(String.valueOf(rebounds));
+                            blocks = database.getBasketPl(Integer.parseInt(cell)).getBlocks();
+                            mainView.getTextFieldBlocks().setText(String.valueOf(blocks));
+                        }
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+                    if(modeFlag){
                         //int index = mainView.getPlayersTable().convertRowIndexToModel(mainView.getPlayersTable().getSelectedRow());
-                        int row;
-                        String cell;
                         mainView.getLabelHeader().setText("Update " + tempPl);
                         mainView.getButton().setText("Update");
-                        try {
-                            database.initDB();
-                            row = mainView.getPlayersTable().getSelectedRow();
-                            cell = mainView.getPlayersTable().getModel().getValueAt(row,0).toString();
-                            if(sportFlag == 1){
-                                name = database.getSoccer(Integer.parseInt(cell)).getName();
-                                mainView.getTextFieldName().setText(name);
-                                surname = database.getSoccer(Integer.parseInt(cell)).getSurname();
-                                mainView.getTextFieldSurname().setText(surname);
-                                number = database.getSoccer(Integer.parseInt(cell)).getNumber();
-                                mainView.getTextFieldNumber().setText(String.valueOf(number));
-                                role = database.getSoccer(Integer.parseInt(cell)).getRole();
-                                mainView.getComboRole().setSelectedItem(role);
-                                team = database.getSoccer(Integer.parseInt(cell)).getTeam();
-                                mainView.getTextFieldTeam().setText(team);
-                                mins = database.getSoccer(Integer.parseInt(cell)).getMins();
-                                mainView.getTextFieldMins().setText(String.valueOf(mins));
-                                goals = database.getSoccer(Integer.parseInt(cell)).getGoals();
-                                mainView.getTextFieldGoals().setText(String.valueOf(goals));
-                                assists = database.getSoccer(Integer.parseInt(cell)).getAssists();
-                                mainView.getTextFieldAssists().setText(String.valueOf(assists));
-                                yC = database.getSoccer(Integer.parseInt(cell)).getYelCard();
-                                mainView.getTextFieldYC().setText(String.valueOf(yC));
-                                rC = database.getSoccer(Integer.parseInt(cell)).getRedCard();
-                                mainView.getTextFieldRC().setText(String.valueOf(rC));
-                                pS = database.getSoccer(Integer.parseInt(cell)).getPsPerc();
-                                mainView.getTextFieldPsPerc().setText(String.valueOf(pS));
-                            }
-                            else if(sportFlag == 2){
-                                tempPl = "hockey player";
-                            }
-                            else if (sportFlag == 3){
-                                tempPl = "basketball player";
-                            }
-                        } catch (SQLException ex) {
-                            ex.printStackTrace();
-                        }
-
-                        //System.out.println(index);
-                        /*try {
-                            database.getPlayer(index);
-                        } catch (SQLException ex) {
-                            ex.printStackTrace();
-                        }*/
+                    }
+                    else{
+                        mainView.setAllEnabled(false);
                     }
                 }
 

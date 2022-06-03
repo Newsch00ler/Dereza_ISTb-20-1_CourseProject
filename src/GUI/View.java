@@ -3,6 +3,9 @@ package GUI;
 import DB.Database;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.util.Objects;
 
@@ -201,7 +204,7 @@ public class View extends JFrame {
         contCenter = new Container();
         contCenter.setLayout(new BoxLayout(contCenter,BoxLayout.PAGE_AXIS));
         tableModel = new TableModel(database);
-        playersTable = new JTable(tableModel)/*{
+        playersTable = new JTable(tableModel){
             @Override
             public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
                 Component component = super.prepareRenderer(renderer, row, column);
@@ -209,31 +212,47 @@ public class View extends JFrame {
                 TableColumn tableColumn = getColumnModel().getColumn(column);
                 switch(column){
                     case 0:
-                        tableColumn.setMinWidth(110);
-                        tableColumn.setMaxWidth(110);
+                        tableColumn.setMinWidth(15);
+                        tableColumn.setMaxWidth(15);
                         break;
                     case 1:
-                        tableColumn.setMinWidth(50);
+                        tableColumn.setPreferredWidth(90);
                         break;
                     case 2:
-                        tableColumn.setMinWidth(50);
+                        tableColumn.setPreferredWidth(90);
                         break;
                     case 3:
-                        tableColumn.setMinWidth(70);
+                        tableColumn.setMinWidth(60);
+                        tableColumn.setMaxWidth(60);
                         break;
                     case 4:
-                        tableColumn.setMinWidth(160);
+                        tableColumn.setPreferredWidth(90);
                         break;
                     case 5:
-                        tableColumn.setMinWidth(160);
+                        tableColumn.setPreferredWidth(90);
+                        break;
+                    case 6:
+                        tableColumn.setMinWidth(55);
+                        tableColumn.setMaxWidth(55);
+                        break;
+                    case 7:
+                        tableColumn.setMinWidth(55);
+                        tableColumn.setMaxWidth(55);
+                        break;
+                    case 8:
+                        tableColumn.setMinWidth(55);
+                        tableColumn.setMaxWidth(55);
                         break;
                 }
                 return component;
             }
-
-        }*/;
+        };
+        DefaultTableCellRenderer renderer = (DefaultTableCellRenderer)playersTable.getDefaultRenderer(String.class);
+        renderer.setHorizontalAlignment(SwingConstants.CENTER);
         playersTable.setBackground(colorFootball2);
         scrollPane = new JScrollPane(playersTable);
+        contCenter.setMaximumSize(new Dimension(600, 450));
+        contCenter.setPreferredSize(new Dimension(600, 450));
         contCenter.add(scrollPane);
 
         labelHeader = new JLabel("Statistics");
@@ -323,10 +342,12 @@ public class View extends JFrame {
         contInput.add(textFieldRebounds);
         contInput.add(labelBlocks);
         contInput.add(textFieldBlocks);
+        contInput.setMaximumSize(new Dimension(300, 450));
         contInput.setPreferredSize(new Dimension(300, 450));
         contRight.add(contInput);
         button = new JButton("Add");
         button.setAlignmentX(0.5F);
+        //contRight.setPreferredSize(new Dimension(300, 510));
         contRight.add(button);
 
         setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);

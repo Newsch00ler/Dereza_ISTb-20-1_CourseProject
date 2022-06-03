@@ -9,13 +9,22 @@ import java.util.ArrayList;
 
 public class Database extends DBQueries{
     private ArrayList<Player> allPlayerList = new ArrayList<>();
-    private ArrayList<SoccerPlayer> allSoccers = new ArrayList<>();
-    private ArrayList<HockeyPlayer> allHockeyPl = new ArrayList<>();
-    private ArrayList<BasketballPlayer> allBasketPl = new ArrayList<>();
+    private ArrayList<SoccerPlayer> allSoccersList = new ArrayList<>();
+    private ArrayList<HockeyPlayer> allHockeyPlList = new ArrayList<>();
+    private ArrayList<BasketballPlayer> allBasketPlList = new ArrayList<>();
 
     public ArrayList<Player> getAllPlayerList(){
         return allPlayerList;
     }
+
+    public ArrayList<SoccerPlayer> getAllSoccersList(){
+        return allSoccersList;
+    }
+
+    /*public Player getPlayer(){
+        Player player = new Player() {}
+        return Player;
+    }*/
 
     public ArrayList<Player> getListBySport(int idSport){
         ArrayList<Player> list = new ArrayList<>();
@@ -52,8 +61,8 @@ public class Database extends DBQueries{
         this.allPlayerList = allPlayerList;
     }
 
-    public void setAllSoccers(ArrayList<SoccerPlayer> allSoccers) {
-
+    public void setAllSoccersList(ArrayList<SoccerPlayer> allSoccersList) {
+        this.allPlayerList = allPlayerList;
     }
 
 

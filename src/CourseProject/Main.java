@@ -19,7 +19,8 @@ public class Main {
             database.addSoccer(new SoccerPlayer("Sasha", "Dereza", 19, "Forward", "Baikal", 669, 34, 46, 3, 0, 73));
             database.addHockeyPl(new HockeyPlayer("Sergey", "Popovich", 17, "Defender", "CSKA", 875, 5, 27, "L", 72, 18));
             database.addBasketPl(new BasketballPlayer("Ars", "Potapov", 55, "Small forward", "Irkut", 1235, 578, 343, 767, 347));*/
-            database.setAllPlayerList(database.getPlayerList());
+            database.setAllPlayerList(database.getAllPlayersList());
+            //database.setAllSoccersList(database.getAllSoccersList());
             database.closeDB();
         }
         catch(Exception ex){

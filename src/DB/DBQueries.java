@@ -310,13 +310,6 @@ public abstract class DBQueries {
         }
     }
 
-    public void getAllSoccers(int id) throws SQLException {
-        stmt = con.prepareStatement("SELECT * FROM Playerslist WHERE [ID sport] = ?");
-        stmt.setObject(1, id);
-        stmt.execute();
-        stmt.close();
-    }
-
     public void updateSoccer(String name, String surname, int number, String role, String team, int mins, int goals, int assists, int yc, int rc, int succPasses, int ID) throws SQLException {
         stmt = con.prepareStatement("UPDATE Statistics set Minutes = ?, Goals = ?, Assists = ?, YC = ?, RC = ?, Succ_passes = ? WHERE ID_player = ?");
         stmt.setObject(1, mins);
@@ -338,14 +331,15 @@ public abstract class DBQueries {
         stmt.close();
     }
 
-    public void updateHockeyPl(String name, String surname, int number, String role, String team, int mins, int goals, int assists, int penTime, int penCount, int ID) throws SQLException {
-        stmt = con.prepareStatement("UPDATE Statistics set Minutes = ?, Goals = ?, Assists = ?, Penalty_time = ?, Penalty_count = ? WHERE ID_player = ?");
+    public void updateHockeyPl(String name, String surname, int number, String role, String team, int mins, int goals, int assists, String stickGrip, int penTime, int penCount, int ID) throws SQLException {
+        stmt = con.prepareStatement("UPDATE Statistics set Minutes = ?, Goals = ?, Assists = ?, Stick_grip = ?, Penalty_time = ?, Penalty_count = ? WHERE ID_player = ?");
         stmt.setObject(1, mins);
         stmt.setObject(2, goals);
         stmt.setObject(3, assists);
-        stmt.setObject(4, penTime);
-        stmt.setObject(5, penCount);
-        stmt.setObject(6, ID);
+        stmt.setObject(4, stickGrip);
+        stmt.setObject(5, penTime);
+        stmt.setObject(6, penCount);
+        stmt.setObject(7, ID);
         stmt.executeUpdate();
         stmt = con.prepareStatement("UPDATE Players set Name = ?, Surname = ?, Number = ?, Role = ?, Team = ? WHERE ID_player = ?");
         stmt.setObject(1, name);
@@ -571,7 +565,40 @@ public abstract class DBQueries {
         return basketballPlayer;
     }
 
-    public ArrayList<Player> getPlayerList() {
+
+    public ArrayList<SoccerPlayer> getAllSoccersList() throws SQLException {
+        ArrayList<SoccerPlayer> allSoccersList = new ArrayList<>();
+        stmt = con.prepareStatement("SELECT * FROM Playerslist WHERE [ID sport] = 1");
+        rs = stmt.executeQuery();
+        allSoccersList.add(new SoccerPlayer(
+                rs.getInt("ID player"),
+                rs.getString("Name"),
+                rs.getString("Surname"),
+                rs.getInt("Number"),
+                rs.getString("Role"),
+                rs.getString("Team"),
+                rs.getInt("Minutes"),
+                rs.getInt("Goals"),
+                rs.getInt("Assists"),
+                rs.getInt("Yellow cards"),
+                rs.getInt("Red cards"),
+                rs.getInt("Success passes")));
+        return allSoccersList;
+    }
+
+    public void getAllHockerPlsList() throws SQLException {
+        stmt = con.prepareStatement("SELECT * FROM Playerslist WHERE [ID sport] = 2");
+        stmt.execute();
+        stmt.close();
+    }
+
+    public void getAllbasketPlList() throws SQLException {
+        stmt = con.prepareStatement("SELECT * FROM Playerslist WHERE [ID sport] = 3");
+        stmt.execute();
+        stmt.close();
+    }
+
+    public ArrayList<Player> getAllPlayersList() {
         ArrayList<Player> allPlayerList = new ArrayList<>();
         String kindSport = null;
         try{
