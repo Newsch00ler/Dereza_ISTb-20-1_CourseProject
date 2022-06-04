@@ -57,28 +57,9 @@ public class TableModel extends AbstractTableModel implements MouseListener {
         return columnName[column];
     }
 
-    public Class<? extends Player> getPlSport(int index){
-        return database.getPlayerSport(index);
-    }
-
     public void update(){
         fireTableDataChanged();
     }
-
-    public void removeRow(int index){
-        fireTableDataChanged();
-    }
-
-    public void removeAllRow(){
-        //
-        fireTableDataChanged();
-    }
-
-    public void addRow(){
-        fireTableDataChanged();
-    }
-
-
 
     @Override
     public void mouseClicked(MouseEvent e) {

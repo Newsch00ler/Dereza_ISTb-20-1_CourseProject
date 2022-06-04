@@ -1,9 +1,5 @@
 package Model;
 
-//???https://www.liveresult.ru/football/players/Ronaldo-Cristiano
-//???https://1xbet.whoscored.com/Players/300713/Show/Kylian-Mbappé
-
-
 public class SoccerPlayer extends Player {
     protected int yelCard; //жетлые карточки
     protected int redCard; //красные карточки
@@ -15,10 +11,6 @@ public class SoccerPlayer extends Player {
         this.redCard = redCard;
         this.psPerc = psPerc;
     }
-
-   /* public SoccerPlayer(String name, String surname, int number, String role, String team,  int mins, int goals, int assists){
-        super(surname, name, number, role, team, mins, goals, assists);
-    }*/
 
     public int getYelCard() {
         return yelCard;

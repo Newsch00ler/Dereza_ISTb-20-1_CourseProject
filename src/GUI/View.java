@@ -208,40 +208,39 @@ public class View extends JFrame {
             @Override
             public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
                 Component component = super.prepareRenderer(renderer, row, column);
-
                 TableColumn tableColumn = getColumnModel().getColumn(column);
                 switch(column){
                     case 0:
-                        tableColumn.setMinWidth(15);
-                        tableColumn.setMaxWidth(15);
+                        tableColumn.setMinWidth(55);
+                        tableColumn.setMaxWidth(55);
                         break;
                     case 1:
-                        tableColumn.setPreferredWidth(90);
+                        tableColumn.setPreferredWidth(85);
                         break;
                     case 2:
-                        tableColumn.setPreferredWidth(90);
+                        tableColumn.setPreferredWidth(85);
                         break;
                     case 3:
-                        tableColumn.setMinWidth(60);
-                        tableColumn.setMaxWidth(60);
+                        tableColumn.setMinWidth(55);
+                        tableColumn.setMaxWidth(55);
                         break;
                     case 4:
-                        tableColumn.setPreferredWidth(90);
+                        tableColumn.setPreferredWidth(85);
                         break;
                     case 5:
-                        tableColumn.setPreferredWidth(90);
+                        tableColumn.setPreferredWidth(85);
                         break;
                     case 6:
-                        tableColumn.setMinWidth(55);
-                        tableColumn.setMaxWidth(55);
+                        tableColumn.setMinWidth(50);
+                        tableColumn.setMaxWidth(50);
                         break;
                     case 7:
-                        tableColumn.setMinWidth(55);
-                        tableColumn.setMaxWidth(55);
+                        tableColumn.setMinWidth(50);
+                        tableColumn.setMaxWidth(50);
                         break;
                     case 8:
-                        tableColumn.setMinWidth(55);
-                        tableColumn.setMaxWidth(55);
+                        tableColumn.setMinWidth(50);
+                        tableColumn.setMaxWidth(50);
                         break;
                 }
                 return component;

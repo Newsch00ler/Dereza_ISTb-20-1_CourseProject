@@ -1,7 +1,5 @@
 package Model;
 
-//!!!https://www.liveresult.ru/hockey/players/Alexander-Ovechkin
-
 public class HockeyPlayer extends Player {
     protected String stickGrip; //хват
     protected int penaltyTime; //время нарушений

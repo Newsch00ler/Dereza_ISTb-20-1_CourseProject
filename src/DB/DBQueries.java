@@ -1,12 +1,10 @@
 package DB;
 
-import GUI.View;
 import Model.BasketballPlayer;
 import Model.HockeyPlayer;
 import Model.Player;
 import Model.SoccerPlayer;
 
-import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -96,40 +94,6 @@ public abstract class DBQueries {
         stmt.execute();*/
         stmt.close();
     }
-
-   /* public void addPlayer(Player player) throws SQLException{
-        String surname = player.getSurname();
-        String name = player.getName();
-        int number = player.getNumber();
-        String role = player.getRole();
-        String team = player.getTeam();
-        int idSport = 0;
-        if(player instanceof SoccerPlayer){
-            idSport = 1;
-        }
-        else if(player instanceof HockeyPlayer){
-            idSport = 2;
-        }
-        else if(player instanceof BasketballPlayer){
-            idSport = 3;
-        }
-        stmt = con.prepareStatement("INSERT INTO Players" +
-                "(ID_sport, " +
-                "Name, " +
-                "Surname, " +
-                "Number, " +
-                "Role, " +
-                "Team, " +
-                "VALUES (?,?,?,?,?,?)");
-        stmt.setObject(1, idSport);
-        stmt.setObject(2, name);
-        stmt.setObject(3, surname);
-        stmt.setObject(4, number);
-        stmt.setObject(5, role);
-        stmt.setObject(6, team);
-        stmt.execute();
-        stmt.close();
-    }*/
 
     public int maxID() throws SQLException {
        stmt = con.prepareStatement("SELECT MAX(ID_player) FROM Players");
@@ -299,17 +263,6 @@ public abstract class DBQueries {
         stmt.close();
     }
 
-    public void update() throws SQLException{
-        try{
-            stmt = con.prepareStatement("SELECT * FROM Playerslist");
-            rs = stmt.executeQuery();
-            stmt.close();
-        }
-        catch(Exception ex){
-            JOptionPane.showMessageDialog(null, ex);
-        }
-    }
-
     public void updateSoccer(String name, String surname, int number, String role, String team, int mins, int goals, int assists, int yc, int rc, int succPasses, int ID) throws SQLException {
         stmt = con.prepareStatement("UPDATE Statistics set Minutes = ?, Goals = ?, Assists = ?, YC = ?, RC = ?, Succ_passes = ? WHERE ID_player = ?");
         stmt.setObject(1, mins);
@@ -371,128 +324,6 @@ public abstract class DBQueries {
         stmt.executeUpdate();
         stmt.close();
     }
-
-    /*public void updatePlayerName(int id, String name) throws SQLException {
-        stmt = con.prepareStatement("UPDATE Players set Name = ? WHERE ID_player = ?");
-        stmt.setObject(1, name);
-        stmt.setObject(2, id);
-        stmt.executeUpdate();
-        stmt.close();
-    }
-
-    public void updatePlayerSurname(int id, String surname) throws SQLException {
-        stmt = con.prepareStatement("UPDATE Players set Surname = ? WHERE ID_player = ?");
-        stmt.setObject(1, surname);
-        stmt.setObject(2, id);
-        stmt.executeUpdate();
-        stmt.close();
-    }
-
-    public void updatePlayerNumber(int id, int number) throws SQLException {
-        stmt = con.prepareStatement("UPDATE Players set Number = ? WHERE ID_player = ?");
-        stmt.setObject(1, number);
-        stmt.setObject(2, id);
-        stmt.executeUpdate();
-        stmt.close();
-    }
-
-    public void updatePlayerRole(int id, String role) throws SQLException {
-        stmt = con.prepareStatement("UPDATE Players set Role = ? WHERE ID_player = ?");
-        stmt.setObject(1, role);
-        stmt.setObject(2, id);
-        stmt.executeUpdate();
-        stmt.close();
-    }
-
-    public void updatePlayerTeam(int id, String team) throws SQLException {
-        stmt = con.prepareStatement("UPDATE Players set Team = ? WHERE ID_player = ?");
-        stmt.setObject(1, team);
-        stmt.setObject(2, id);
-        stmt.executeUpdate();
-        stmt.close();
-    }
-
-    public void updatePlayerMins(int id, int mins) throws SQLException {
-        stmt = con.prepareStatement("UPDATE Statistics set Minutes = ? WHERE ID_player = ?");
-        stmt.setObject(1, mins);
-        stmt.setObject(2, id);
-        stmt.executeUpdate();
-        stmt.close();
-    }
-
-    public void updatePlayerGoals(int id, int goals) throws SQLException {
-        stmt = con.prepareStatement("UPDATE Statistics set Goals = ? WHERE ID_player = ?");
-        stmt.setObject(1, goals);
-        stmt.setObject(2, id);
-        stmt.executeUpdate();
-        stmt.close();
-    }
-
-    public void updatePlayerAssists(int id, int assists) throws SQLException {
-        stmt = con.prepareStatement("UPDATE Statistics set Assists = ? WHERE ID_player = ?");
-        stmt.setObject(1, assists);
-        stmt.setObject(2, id);
-        stmt.executeUpdate();
-        stmt.close();
-    }
-
-    public void updatePlayerYC(int id, int yc) throws SQLException {
-        stmt = con.prepareStatement("UPDATE Statistics set YC = ? WHERE ID_player = ?");
-        stmt.setObject(1, yc);
-        stmt.setObject(2, id);
-        stmt.executeUpdate();
-        stmt.close();
-    }
-
-    public void updatePlayerRC(int id, int rc) throws SQLException {
-        stmt = con.prepareStatement("UPDATE Statistics set RC = ? WHERE ID_player = ?");
-        stmt.setObject(1, rc);
-        stmt.setObject(2, id);
-        stmt.executeUpdate();
-        stmt.close();
-    }
-
-    public void updatePlayerSuccPasses(int id, int succPasses) throws SQLException {
-        stmt = con.prepareStatement("UPDATE Statistics set Succ_passes = ? WHERE ID_player = ?");
-        stmt.setObject(1, succPasses);
-        stmt.setObject(2, id);
-        stmt.executeUpdate();
-        stmt.close();
-    }
-
-    public void updatePlayerPenTime(int id, int penTime) throws SQLException {
-        stmt = con.prepareStatement("UPDATE Statistics set Penalty_time = ? WHERE ID_player = ?");
-        stmt.setObject(1, penTime);
-        stmt.setObject(2, id);
-        stmt.executeUpdate();
-        stmt.close();
-    }
-
-    public void updatePlayerPenCount(int id, int penCount) throws SQLException {
-        stmt = con.prepareStatement("UPDATE Statistics set Penalty_count = ? WHERE ID_player = ?");
-        stmt.setObject(1, penCount);
-        stmt.setObject(2, id);
-        stmt.executeUpdate();
-        stmt.close();
-    }
-
-    public void updatePlayerRebounds(int id, int rebounds) throws SQLException {
-        stmt = con.prepareStatement("UPDATE Statistics set Rebounds = ? WHERE ID_player = ?");
-        stmt.setObject(1, rebounds);
-        stmt.setObject(2, id);
-        stmt.executeUpdate();
-        stmt.close();
-    }
-
-    public void updatePlayerBlocks(int id, int blocks) throws SQLException {
-        stmt = con.prepareStatement("UPDATE Statistics set Blocks = ? WHERE ID_player = ?");
-        stmt.setObject(1, blocks);
-        stmt.setObject(2, id);
-        stmt.executeUpdate();
-        stmt.close();
-    }*/
-
-
 
     public SoccerPlayer getSoccer(int id) throws SQLException{
         SoccerPlayer soccerPlayer = null;
@@ -565,37 +396,84 @@ public abstract class DBQueries {
         return basketballPlayer;
     }
 
-
-    public ArrayList<SoccerPlayer> getAllSoccersList() throws SQLException {
-        ArrayList<SoccerPlayer> allSoccersList = new ArrayList<>();
-        stmt = con.prepareStatement("SELECT * FROM Playerslist WHERE [ID sport] = 1");
-        rs = stmt.executeQuery();
-        allSoccersList.add(new SoccerPlayer(
-                rs.getInt("ID player"),
-                rs.getString("Name"),
-                rs.getString("Surname"),
-                rs.getInt("Number"),
-                rs.getString("Role"),
-                rs.getString("Team"),
-                rs.getInt("Minutes"),
-                rs.getInt("Goals"),
-                rs.getInt("Assists"),
-                rs.getInt("Yellow cards"),
-                rs.getInt("Red cards"),
-                rs.getInt("Success passes")));
+    public ArrayList<Player> getAllSoccersList() {
+        ArrayList<Player> allSoccersList = new ArrayList<>();
+        try{
+            stmt = con.prepareStatement("SELECT * FROM Playerslist WHERE [ID sport] = 1");
+            rs = stmt.executeQuery();
+            while(rs.next()){
+                allSoccersList.add(new SoccerPlayer(
+                        rs.getInt("ID player"),
+                        rs.getString("Name"),
+                        rs.getString("Surname"),
+                        rs.getInt("Number"),
+                        rs.getString("Role"),
+                        rs.getString("Team"),
+                        rs.getInt("Minutes"),
+                        rs.getInt("Goals"),
+                        rs.getInt("Assists"),
+                        rs.getInt("Yellow cards"),
+                        rs.getInt("Red cards"),
+                        rs.getInt("Success passes")));
+            }
+        }
+        catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
         return allSoccersList;
     }
 
-    public void getAllHockerPlsList() throws SQLException {
-        stmt = con.prepareStatement("SELECT * FROM Playerslist WHERE [ID sport] = 2");
-        stmt.execute();
-        stmt.close();
+    public ArrayList<Player> getAllHockeyPlsList() throws SQLException {
+        ArrayList<Player> allHockeyPlsList = new ArrayList<>();
+        try{
+            stmt = con.prepareStatement("SELECT * FROM Playerslist WHERE [ID sport] = 2");
+            rs = stmt.executeQuery();
+            while(rs.next()){
+                allHockeyPlsList.add(new HockeyPlayer(
+                        rs.getInt("ID player"),
+                        rs.getString("Name"),
+                        rs.getString("Surname"),
+                        rs.getInt("Number"),
+                        rs.getString("Role"),
+                        rs.getString("Team"),
+                        rs.getInt("Minutes"),
+                        rs.getInt("Goals"),
+                        rs.getInt("Assists"),
+                        rs.getString("Stick grip"),
+                        rs.getInt("Penalty time"),
+                        rs.getInt("Penalty count")));
+            }
+        }
+        catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+        return allHockeyPlsList;
     }
 
-    public void getAllbasketPlList() throws SQLException {
-        stmt = con.prepareStatement("SELECT * FROM Playerslist WHERE [ID sport] = 3");
-        stmt.execute();
-        stmt.close();
+    public ArrayList<Player> getAllBasketPlsList() throws SQLException {
+        ArrayList<Player> allBasketPlsList = new ArrayList<>();
+        try{
+            stmt = con.prepareStatement("SELECT * FROM Playerslist WHERE [ID sport] = 3");
+            rs = stmt.executeQuery();
+            while(rs.next()){
+                allBasketPlsList.add(new BasketballPlayer(
+                        rs.getInt("ID player"),
+                        rs.getString("Name"),
+                        rs.getString("Surname"),
+                        rs.getInt("Number"),
+                        rs.getString("Role"),
+                        rs.getString("Team"),
+                        rs.getInt("Minutes"),
+                        rs.getInt("Goals"),
+                        rs.getInt("Assists"),
+                        rs.getInt("Rebounds"),
+                        rs.getInt("Blocks")));
+            }
+        }
+        catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+        return allBasketPlsList;
     }
 
     public ArrayList<Player> getAllPlayersList() {

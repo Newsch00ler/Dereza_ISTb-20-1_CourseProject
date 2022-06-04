@@ -24,73 +24,53 @@ public abstract class Player {
     }
 
     public int getID() { return ID; }
-
     public String getSurname(){
         return surname;
     }
-
     public String getName(){
         return name;
     }
-
-    public String getFullName(){
-        return name + " " + surname;
-    }
-
     public int getNumber() {
         return number;
     }
-
     public String getRole() {
         return role;
     }
-
     public String getTeam() {
         return team;
     }
-
     public int getMins() {
         return mins;
     }
-
     public int getGoals() {
         return goals;
     }
-
     public int getAssists() {
         return assists;
     }
 
     public void setID(int ID) { this.ID = ID; }
-
     public void setSurname(String surname) {
         this.surname = surname;
     }
-
     public void setName(String name) {
         this.name = name;
     }
-
     public void setRole(String role) {
         this.role = role;
     }
-
     public void setTeam(String team) {
         this.team = team;
     }
-
     public void setNumber(int number) {
         this.number = number;
     }
-
     public void setMins(int mins) {
         this.mins = mins;
     }
-
     public void setGoals(int goals) {
         this.goals = goals;
     }
-
     public void setAssists(int assists) {
         this.assists = assists;
     }

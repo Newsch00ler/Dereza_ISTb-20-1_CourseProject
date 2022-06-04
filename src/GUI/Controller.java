@@ -11,7 +11,6 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.TableRowSorter;
 import java.awt.event.*;
 import java.sql.SQLException;
-import java.util.Objects;
 import java.util.regex.PatternSyntaxException;
 
 public class Controller {
@@ -52,10 +51,15 @@ public class Controller {
                         else if (sportFlag == 3){
                             mainView.getLabelHeader().setText("Add basketball player");
                         }
+                        if(mainView.getButton().getText().equals("Update")){
+                            mainView.clearAll();
+                        }
                         mainView.getButton().setText("Add");
                     }
+                    else{
+                        mainView.clearAll();
+                    }
                     mainView.getPlayersTable().clearSelection();
-                    mainView.clearAll();
                 }
             }
         });
@@ -63,16 +67,6 @@ public class Controller {
         mainView.getMenuMode().setToolTipText("<html>" + "Mode selection" + "<br>" + "</html>");
         mainView.getMenuHelp().setToolTipText("<html>" + "Program information" + "<br>" + "</html>");
         mainView.getTextFieldFind().setToolTipText("<html>" + "The search is performed on all values of the table" + "<br>" + "</html>");
-
-        if(sportFlag == 1){
-
-        }
-        else if(sportFlag == 2){
-
-        }
-        else if (sportFlag == 3){
-
-        }
 
         mainView.getScrollPane().addMouseListener(new MouseAdapter() {
             @Override
@@ -210,44 +204,70 @@ public class Controller {
             }
         });
 
-        //mainView.getButton().setVisible(false);
         mainView.getLabelHeader().setText("Statistic soccer");
         mainView.getButton().setEnabled(false);
         mainView.setAllEnabled(false);
         mainView.getEditModeItem().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                mainView.getButton().setText("Add");
-                mainView.clearAll();
                 modeFlag = true;
-                sportFlag = 1;
-                mainView.getLabelHeader().setText("Add soccer");
-                mainView.getButton().setVisible(true);
+                mainView.clearAll();
+                mainView.getButton().setText("Add");
                 mainView.getButton().setEnabled(true);
-                mainView.setFootballEnabled(true);
-                mainView.setColorFootball(true);
+                try{
+                    database.initDB();
+                    database.getAllPlayerList().clear();
+                    if(sportFlag == 1){
+                        database.setAllPlayerList(database.getAllSoccersList());
+                        mainView.getLabelHeader().setText("Add soccer");
+                        mainView.setFootballEnabled(true);
+                        mainView.setColorFootball(true);
+                    }
+                    else if(sportFlag == 2){
+                        database.setAllPlayerList(database.getAllHockeyPlsList());
+                        mainView.getLabelHeader().setText("Add hockey player");
+                        mainView.setHockeyEnabled(true);
+                        mainView.setColorHockey(true);
+                    }
+                    else if(sportFlag == 3){
+                        database.setAllPlayerList(database.getAllBasketPlsList());
+                        mainView.getLabelHeader().setText("Add basketball player");
+                        mainView.setBasketEnabled(true);
+                        mainView.setColorFootball(true);
+                    }
+                    database.closeDB();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
         });
         mainView.getViewModeItem().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                mainView.clearAll();
                 modeFlag = false;
-                mainView.getLabelHeader().setText("Statistic soccer");
-                //database.getAllPlayerList().clear();
+                mainView.clearAll();
+                mainView.getButton().setText("Add");
+                mainView.getButton().setEnabled(false);
                 try {
                     database.initDB();
-                    database.getAllSoccersList().clear();
-                    database.setAllSoccersList(database.getAllSoccersList());
-                    mainView.getTableModel().update();
-                    mainView.clearAll();
+                    database.getAllPlayerList().clear();
+                    if(sportFlag == 1){
+                        database.setAllPlayerList(database.getAllSoccersList());
+                        mainView.getLabelHeader().setText("Statistic soccer");
+                    }
+                    else if(sportFlag == 2){
+                        database.setAllPlayerList(database.getAllHockeyPlsList());
+                        mainView.getLabelHeader().setText("Statistic hockey player");
+                    }
+                    else if(sportFlag == 3){
+                        database.setAllPlayerList(database.getAllBasketPlsList());
+                        mainView.getLabelHeader().setText("Statistic basketball player");
+                    }
                     database.closeDB();
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-                mainView.getTableModel().update();
-                //mainView.getButton().setVisible(false);
-                mainView.getButton().setEnabled(false);
+                //mainView.getTableModel().update();
                 mainView.setColorFootball(true);
                 mainView.setAllEnabled(false);
             }
@@ -256,17 +276,26 @@ public class Controller {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 mainView.clearAll();
+                sportFlag = 1;
                 if(modeFlag){
-                    sportFlag = 1;
                     mainView.getLabelHeader().setText("Add soccer");
                     mainView.getButton().setEnabled(true);
                     mainView.setFootballEnabled(true);
                     mainView.setColorFootball(true);
+                    //mainView.getTableModel().update();
                 }
                 else{
                     mainView.getLabelHeader().setText("Statistic soccer");
                     mainView.getButton().setEnabled(false);
                     mainView.setAllEnabled(false);
+                }
+                try{
+                    database.initDB();
+                    database.getAllPlayerList().clear();
+                    database.setAllPlayerList(database.getAllSoccersList());
+                    database.closeDB();
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
             }
         });
@@ -274,17 +303,26 @@ public class Controller {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 mainView.clearAll();
+                sportFlag = 2;
                 if(modeFlag){
-                    sportFlag = 2;
                     mainView.getLabelHeader().setText("Add hockey player");
                     mainView.getButton().setEnabled(true);
                     mainView.setHockeyEnabled(true);
                     mainView.setColorHockey(true);
+                    //mainView.getTableModel().update();
                 }
                 else{
                     mainView.getLabelHeader().setText("Statistic hockey player");
                     mainView.getButton().setEnabled(false);
                     mainView.setAllEnabled(false);
+                }
+                try{
+                    database.initDB();
+                    database.getAllPlayerList().clear();
+                    database.setAllPlayerList(database.getAllHockeyPlsList());
+                    database.closeDB();
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
             }
         });
@@ -292,17 +330,26 @@ public class Controller {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 mainView.clearAll();
+                sportFlag = 3;
                 if(modeFlag){
-                    sportFlag = 3;
                     mainView.getLabelHeader().setText("Add basketball player");
                     mainView.getButton().setEnabled(true);
                     mainView.setBasketEnabled(true);
                     mainView.setColorBasket(true);
+                    //mainView.getTableModel().update();
                 }
                 else{
                     mainView.getLabelHeader().setText("Statistic basketball player");
                     mainView.getButton().setEnabled(false);
                     mainView.setAllEnabled(false);
+                }
+                try{
+                    database.initDB();
+                    database.getAllPlayerList().clear();
+                    database.setAllPlayerList(database.getAllBasketPlsList());
+                    database.closeDB();
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
             }
         });
@@ -402,6 +449,8 @@ public class Controller {
                             else{
                                 SoccerPlayer soccer = new SoccerPlayer(database.maxID(), name, surname, number, role, team, mins, goals, assists, yC, rC, pS);
                                 database.addSoccer(soccer);
+                                database.getAllPlayerList().clear();
+                                database.setAllPlayerList(database.getAllSoccersList());
                             }
                         }
                         else if(sportFlag == 2){
@@ -424,6 +473,8 @@ public class Controller {
                             else{
                                 HockeyPlayer hockeyPlayer = new HockeyPlayer(database.maxID(), name, surname, number, role, team, mins, goals, assists,stickGrip, penTime, penCount);
                                 database.addHockeyPl(hockeyPlayer);
+                                database.getAllPlayerList().clear();
+                                database.setAllPlayerList(database.getAllHockeyPlsList());
                             }
 
                         }
@@ -446,10 +497,10 @@ public class Controller {
                             else{
                                 BasketballPlayer basketballPlayer = new BasketballPlayer(database.maxID(), name, surname, number, role, team, mins, goals, assists, rebounds, blocks);
                                 database.addBasketPl(basketballPlayer);
+                                database.getAllPlayerList().clear();
+                                database.setAllPlayerList(database.getAllBasketPlsList());
                             }
                         }
-                        database.getAllPlayerList().clear();
-                        database.setAllPlayerList(database.getAllPlayersList());
                         mainView.getTableModel().update();
                         mainView.clearAll();
                         database.closeDB();
@@ -470,6 +521,8 @@ public class Controller {
                                     (Integer.parseInt(mainView.getTextFieldYC().getText())), (Integer.parseInt(mainView.getTextFieldRC().getText())),
                                     (Integer.parseInt(mainView.getTextFieldPsPerc().getText())), (Integer.parseInt(cell)));
                             mainView.getLabelHeader().setText("Add soccer");
+                            database.getAllPlayerList().clear();
+                            database.setAllPlayerList(database.getAllSoccersList());
                         }
                         else if(sportFlag == 2){
                             database.updateHockeyPl(mainView.getTextFieldName().getText(), mainView.getTextFieldSurname().getText(),  (Integer.parseInt(mainView.getTextFieldNumber().getText())),
@@ -478,6 +531,8 @@ public class Controller {
                                     mainView.getComboStickGrip().getSelectedItem().toString(), (Integer.parseInt(mainView.getTextFieldPenaltyTime().getText())),
                                     (Integer.parseInt(mainView.getTextFieldPenaltyCount().getText())), (Integer.parseInt(cell)));
                             mainView.getLabelHeader().setText("Add hockey player");
+                            database.getAllPlayerList().clear();
+                            database.setAllPlayerList(database.getAllHockeyPlsList());
                         }
                         else if (sportFlag == 3){
                             database.updateBasketPl(mainView.getTextFieldName().getText(), mainView.getTextFieldSurname().getText(),  (Integer.parseInt(mainView.getTextFieldNumber().getText())),
@@ -485,9 +540,9 @@ public class Controller {
                                     (Integer.parseInt(mainView.getTextFieldGoals().getText())), (Integer.parseInt(mainView.getTextFieldAssists().getText())),
                                     (Integer.parseInt(mainView.getTextFieldRebounds().getText())), (Integer.parseInt(mainView.getTextFieldBlocks().getText())), (Integer.parseInt(cell)));
                             mainView.getLabelHeader().setText("Add basketball player");
+                            database.getAllPlayerList().clear();
+                            database.setAllPlayerList(database.getAllBasketPlsList());
                         }
-                        database.getAllPlayerList().clear();
-                        database.setAllPlayerList(database.getAllPlayersList());
                         mainView.getTableModel().update();
                         mainView.clearAll();
                         database.closeDB();
@@ -505,36 +560,37 @@ public class Controller {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 String tempPl = null;
-                if(sportFlag == 1){
-                    tempPl = "Soccer";
-                    mainView.getLabelHeader().setText("Add soccer");
-                }
-                else if(sportFlag == 2){
-                    tempPl = "Hockey player";
-                    mainView.getLabelHeader().setText("Add hockey player");
-                }
-                else if (sportFlag == 3){
-                    mainView.getLabelHeader().setText("Add basketball player");
-                    tempPl = "Basketball player";
-                }
-                //System.out.println(cell);
+                row = mainView.getPlayersTable().getSelectedRow();
+                cell = mainView.getPlayersTable().getModel().getValueAt(row,0).toString();
                 try {
                     database.initDB();
-                    row = mainView.getPlayersTable().getSelectedRow();
-                    cell = mainView.getPlayersTable().getModel().getValueAt(row,0).toString();
                     if (row == -1 || cell == null) {
                         throw new Exception("not selected!");
                     }
                     else{
                         database.deletePl(Integer.parseInt(cell)); //query
-                        database.deletePlayer(row); //db
-                        database.update();
+                        if(sportFlag == 1){
+                            tempPl = "Soccer";
+                            mainView.getLabelHeader().setText("Add soccer");
+                            database.getAllPlayerList().clear();
+                            database.setAllPlayerList(database.getAllSoccersList());
+                        }
+                        else if(sportFlag == 2){
+                            tempPl = "Hockey player";
+                            mainView.getLabelHeader().setText("Add hockey player");
+                            database.getAllPlayerList().clear();
+                            database.setAllPlayerList(database.getAllHockeyPlsList());
+                        }
+                        else if (sportFlag == 3){
+                            tempPl = "Basketball player";
+                            mainView.getLabelHeader().setText("Add basketball player");
+                            database.getAllPlayerList().clear();
+                            database.setAllPlayerList(database.getAllBasketPlsList());
+                        }
                     }
-                    /*if (mainView.getTableModel().getRowCount() == 0) {
-                        mainView.clearAll();
-                    }*/
                     mainView.getButton().setText("Add");
-                    mainView.getTableModel().fireTableDataChanged();
+                    mainView.getTableModel().update();
+                    mainView.clearAll();
                     database.closeDB();
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(mainView, tempPl + " " + ex.getMessage(), "Warning", JOptionPane.WARNING_MESSAGE);
@@ -586,12 +642,7 @@ public class Controller {
                         }
                         else if(sportFlag == 2){
                             stickGrip = database.getHockeyPl(Integer.parseInt(cell)).getStickGrip();
-                            /*if(stickGrip.equals("Left")){
-                                mainView.getComboStickGrip().setSelectedItem(0);
-                            }
-                            else{*/
-                                mainView.getComboStickGrip().setSelectedItem(stickGrip);
-                            //}
+                            mainView.getComboStickGrip().setSelectedItem(stickGrip);
                             penTime = database.getHockeyPl(Integer.parseInt(cell)).getPenaltyTime();
                             mainView.getTextFieldPenaltyTime().setText(String.valueOf(penTime));
                             penCount = database.getHockeyPl(Integer.parseInt(cell)).getCountPenalty();
@@ -605,10 +656,9 @@ public class Controller {
                             mainView.getTextFieldBlocks().setText(String.valueOf(blocks));
                         }
                     } catch (SQLException ex) {
-                        ex.printStackTrace();
+                        JOptionPane.showMessageDialog(mainView, "Не выбран " + tempPl, "Warning", JOptionPane.WARNING_MESSAGE);
                     }
                     if(modeFlag){
-                        //int index = mainView.getPlayersTable().convertRowIndexToModel(mainView.getPlayersTable().getSelectedRow());
                         mainView.getLabelHeader().setText("Update " + tempPl);
                         mainView.getButton().setText("Update");
                     }
@@ -616,32 +666,9 @@ public class Controller {
                         mainView.setAllEnabled(false);
                     }
                 }
-
             }
         });
-        /*mainView.addTableModelListener(new TableModelListener() {
-            @Override
-            public void tableChanged(TableModelEvent tableModelEvent) {
-                int index = mainView.getPlayersTable().convertRowIndexToModel(mainView.getPlayersTable().getSelectedRow());
-                System.out.println(index);
-                try {
-                    database.getPlayer(index);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-                if(sportFlag == 1){
 
-                }
-                else if(sportFlag == 2){
-
-                }
-                else if (sportFlag == 3){
-
-                }
-
-
-            }
-        });*/
         mainView.getTextFieldFind().getDocument().addDocumentListener(new DocumentListener() {
             private void newFilter(){
                 TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(mainView.getTableModel());
