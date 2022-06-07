@@ -19,14 +19,12 @@ public class View extends JFrame {
     private JMenuItem footballItem;
     private JMenuItem hockeyItem;
     private JMenuItem basketItem;
-    private JMenu menuSportV;
     private JMenuItem footballItemV;
     private JMenuItem hockeyItemV;
     private JMenuItem basketItemV;
     private JMenu menuMode;
     private JMenuItem editModeItem;
     private JMenuItem viewModeItem;
-    private JMenu menuModeV;
     private JMenuItem editModeItemV;
     private JMenuItem viewModeItemV;
     private JMenu menuHelp;
@@ -44,7 +42,6 @@ public class View extends JFrame {
     private JMenu popupSportMenuV;
     private JMenu popupModeMenuV;
 
-    //private JLabel background;
     private JLabel labelHeader;
     private JLabel labelFind;
     private JLabel labelName;
@@ -117,8 +114,6 @@ public class View extends JFrame {
         super("Bookmaker's assistant");
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
         setIconImage(new ImageIcon(Objects.requireNonNull(classloader.getResource("Icon.png"))).getImage());
-        //background = new JLabel(new ImageIcon(Objects.requireNonNull(classloader.getResource("Background.jpg"))));
-        //add(background);
         font = new Font("TimesRoman", 0, 14);
 
         popupEdit = new JPopupMenu();
@@ -126,18 +121,18 @@ public class View extends JFrame {
         popupEdit.add(popupDeleteItem);
         popupSportMenu = new JMenu("Sport");
         popupModeMenu = new JMenu("Mode");
-        popupEdit.add(popupSportMenu);
-        popupEdit.add(popupModeMenu);
+        /*popupEdit.add(popupSportMenu);
+        popupEdit.add(popupModeMenu);*/
         footballItem = new JMenuItem("Football");
         hockeyItem = new JMenuItem("Hockey");
         basketItem = new JMenuItem("Basketball");
-        popupSportMenu.add(footballItem);
+        /*popupSportMenu.add(footballItem);
         popupSportMenu.add(hockeyItem);
-        popupSportMenu.add(basketItem);
+        popupSportMenu.add(basketItem);*/
         editModeItem = new JMenuItem("Edit mode");
         viewModeItem = new JMenuItem("View mode");
-        popupModeMenu.add(editModeItem);
-        popupModeMenu.add(viewModeItem);
+        /*popupModeMenu.add(editModeItem);
+        popupModeMenu.add(viewModeItem);*/
         add(popupEdit);
 
         popupView = new JPopupMenu();
@@ -160,35 +155,25 @@ public class View extends JFrame {
         menuBar = new JMenuBar();
         menuBar.setBackground(colorFootball1);
         menuSport = new JMenu("Sport");
-        //footballItem = new JMenuItem("Football");
         footballItem.setBackground(colorFootball2);
-        //hockeyItem = new JMenuItem("Hockey");
         hockeyItem.setBackground(colorFootball2);
-        //basketItem = new JMenuItem("Basketball");
         basketItem.setBackground(colorFootball2);
         menuSport.add(footballItem);
         menuSport.add(hockeyItem);
         menuSport.add(basketItem);
         menuBar.add(menuSport);
-
         menuMode = new JMenu("Mode");
-        //editModeItem = new JMenuItem("Edit mode");
         editModeItem.setBackground(colorFootball2);
-        //viewModeItem = new JMenuItem("View mode");
         viewModeItem.setBackground(colorFootball2);
         menuMode.add(editModeItem);
         menuMode.add(viewModeItem);
         menuBar.add(menuMode);
-
         menuHelp = new JMenu("Help");
         helpInfo = new JMenuItem("Help information");
-        helpInfo.setBackground(colorFootball2);
         infoAboutProg = new JMenuItem("About");
-        infoAboutProg.setBackground(colorFootball2);
         menuHelp.add(helpInfo);
         menuHelp.add(infoAboutProg);
         menuBar.add(menuHelp);
-
         menuBar.add(Box.createHorizontalGlue());
         setJMenuBar(menuBar);
 
@@ -265,7 +250,7 @@ public class View extends JFrame {
         labelAssists = new JLabel("Assists");
         labelYC = new JLabel("Yellow cards");
         labelRC = new JLabel("Red cards");
-        labelPsPerc = new JLabel("Successful passes");
+        labelPsPerc = new JLabel("Successful passes, %");
         labelStickGrip = new JLabel("Stick grip");
         labelPenaltyTime = new JLabel("Penalty time");
         labelPenaltyCount = new JLabel("Penalty count");
@@ -346,7 +331,6 @@ public class View extends JFrame {
         contRight.add(contInput);
         button = new JButton("Add");
         button.setAlignmentX(0.5F);
-        //contRight.setPreferredSize(new Dimension(300, 510));
         contRight.add(button);
 
         setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
@@ -365,7 +349,6 @@ public class View extends JFrame {
         constraints.gridx = 1;
         constraints.gridy = 1;
         add(contRight, constraints);
-
         setVisible(true);
         this.setLocationRelativeTo(null);
         setResizable(false);
@@ -455,15 +438,11 @@ public class View extends JFrame {
 
     public JPopupMenu getPopupEdit() { return popupEdit; }
 
-    public JPopupMenu getPopupView() { return popupView; }
-
     public JMenuItem getPopupDeleteItem() { return popupDeleteItem; }
 
-    public JMenu getPopupSportMenu() {return popupSportMenu; }
+    public JMenu getPopupModeMenu() { return popupModeMenu; }
 
-    public JMenu getPopupModeMenu() {return popupModeMenu; }
-
-    public JMenu getMenuSport() { return menuSport; }
+    public JMenu getPopupSportMenu() { return popupSportMenu; }
 
     public JMenuItem getFootballItem() {
         return footballItem;
@@ -476,6 +455,20 @@ public class View extends JFrame {
     public JMenuItem getBasketItem() {
         return basketItem;
     }
+
+    public JPopupMenu getPopupView() { return popupView; }
+
+    public JMenuItem getFootballItemV() { return footballItemV; }
+
+    public JMenuItem getHockeyItemV() { return hockeyItemV; }
+
+    public JMenuItem getBasketItemV() { return basketItemV; }
+
+    public JMenuItem getEditModeItemV() { return editModeItemV; }
+
+    public JMenuItem getViewModeItemV() { return viewModeItemV; }
+
+    public JMenu getMenuSport() { return menuSport; }
 
     public JMenu getMenuMode() { return menuMode; }
 
@@ -518,6 +511,7 @@ public class View extends JFrame {
         textFieldPsPerc.setEnabled(b);
         labelStickGrip.setEnabled(!b);
         comboStickGrip.setEnabled(!b);
+        comboStickGrip.setSelectedItem(null);
         labelPenaltyTime.setEnabled(!b);
         textFieldPenaltyTime.setEnabled(!b);
         labelPenaltyCount.setEnabled(!b);
@@ -604,6 +598,7 @@ public class View extends JFrame {
         textFieldPsPerc.setEnabled(!b);
         labelStickGrip.setEnabled(!b);
         comboStickGrip.setEnabled(!b);
+        comboStickGrip.setSelectedItem(null);
         labelPenaltyTime.setEnabled(!b);
         textFieldPenaltyTime.setEnabled(!b);
         labelPenaltyCount.setEnabled(!b);

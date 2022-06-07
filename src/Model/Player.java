@@ -13,14 +13,14 @@ public abstract class Player {
 
     public Player(int ID, String name, String surname, int number, String role, String team, int mins, int goals, int assists){
         this.ID = ID;
-        this.surname = surname;
         this.name = name;
+        this.surname = surname;
         this.number = number;
         this.role = role;
         this.team= team;
         this.mins = mins;
         this.goals = goals;
-        this.assists =assists;
+        this.assists = assists;
     }
 
     public int getID() { return ID; }

@@ -3,12 +3,9 @@ package GUI;
 import DB.Database;
 import Model.Player;
 
-import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
-public class TableModel extends AbstractTableModel implements MouseListener {
+public class TableModel extends AbstractTableModel{
     private String[] columnName = {"ID", "Name", "Surname", "Number", "Role", "Team","Minutes", "Goals", "Assists"};
     private Database database;
 
@@ -59,34 +56,5 @@ public class TableModel extends AbstractTableModel implements MouseListener {
 
     public void update(){
         fireTableDataChanged();
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-        if(e.getClickCount() == 2 ){
-            JTable obj = (JTable)e.getSource();
-            System.out.println("obj.getSelectedColumn()="+obj.getSelectedColumn());
-            System.out.println("obj.getSelectedRow()="+obj.getSelectedRow());
-        }
-    }
-
-    @Override
-    public void mousePressed(MouseEvent mouseEvent) {
-
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent mouseEvent) {
-
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent mouseEvent) {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent mouseEvent) {
-
     }
 }
