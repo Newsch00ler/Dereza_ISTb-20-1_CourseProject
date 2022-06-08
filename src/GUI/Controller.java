@@ -10,7 +10,6 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.TableRowSorter;
 import java.awt.event.*;
-import java.sql.SQLException;
 import java.util.regex.PatternSyntaxException;
 
 public class Controller {
@@ -39,8 +38,9 @@ public class Controller {
     public void execute(Database database, View mainView){
         mainView.getLabelHeader().setText("Statistic soccer");
         mainView.getButton().setEnabled(false);
+        mainView.setAllEnabledFH(false);
+        mainView.getComboRole().setSelectedItem(null);
         mainView.getComboStickGrip().setSelectedItem(null);
-        mainView.setAllEnabled(false);
         mainView.getMenuSport().setToolTipText("<html>" + "Choice of sport" + "<br>" + "</html>");
         mainView.getMenuMode().setToolTipText("<html>" + "Mode selection" + "<br>" + "</html>");
         mainView.getMenuHelp().setToolTipText("<html>" + "Program information" + "<br>" + "</html>");
@@ -58,7 +58,6 @@ public class Controller {
                     if(sportFlag == 1){
                         database.setAllPlayerList(database.getAllSoccersList());
                         mainView.getLabelHeader().setText("Add soccer");
-                        mainView.getComboStickGrip().setSelectedItem(null);
                         mainView.setFootballEnabled(true);
                         mainView.setColorFootball(true);
                     }
@@ -71,10 +70,11 @@ public class Controller {
                     else if(sportFlag == 3){
                         database.setAllPlayerList(database.getAllBasketPlsList());
                         mainView.getLabelHeader().setText("Add basketball player");
-                        mainView.getComboStickGrip().setSelectedItem(null);
                         mainView.setBasketEnabled(true);
                         mainView.setColorBasket(true);
                     }
+                    mainView.getComboRole().setSelectedItem(null);
+                    mainView.getComboStickGrip().setSelectedItem(null);
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(mainView, "Try later!", "Warning", JOptionPane.WARNING_MESSAGE);
                 }
@@ -93,7 +93,6 @@ public class Controller {
                     if(sportFlag == 1){
                         database.setAllPlayerList(database.getAllSoccersList());
                         mainView.getLabelHeader().setText("Add soccer");
-                        mainView.getComboStickGrip().setSelectedItem(null);
                         mainView.setFootballEnabled(true);
                         mainView.setColorFootball(true);
                     }
@@ -106,10 +105,11 @@ public class Controller {
                     else if(sportFlag == 3){
                         database.setAllPlayerList(database.getAllBasketPlsList());
                         mainView.getLabelHeader().setText("Add basketball player");
-                        mainView.getComboStickGrip().setSelectedItem(null);
                         mainView.setBasketEnabled(true);
                         mainView.setColorBasket(true);
                     }
+                    mainView.getComboRole().setSelectedItem(null);
+                    mainView.getComboStickGrip().setSelectedItem(null);
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(mainView, "Try later!", "Warning", JOptionPane.WARNING_MESSAGE);
                 }
@@ -128,22 +128,23 @@ public class Controller {
                     if(sportFlag == 1){
                         database.setAllPlayerList(database.getAllSoccersList());
                         mainView.getLabelHeader().setText("Statistic soccer");
-                        mainView.getComboStickGrip().setSelectedItem(null);
+                        mainView.setAllEnabledFH(false);
                     }
                     else if(sportFlag == 2){
                         database.setAllPlayerList(database.getAllHockeyPlsList());
                         mainView.getLabelHeader().setText("Statistic hockey player");
+                        mainView.setAllEnabledFH(false);
                     }
                     else if(sportFlag == 3){
                         database.setAllPlayerList(database.getAllBasketPlsList());
                         mainView.getLabelHeader().setText("Statistic basketball player");
-                        mainView.getComboStickGrip().setSelectedItem(null);
+                        mainView.setAllEnabledB(false);
                     }
+                    mainView.getComboRole().setSelectedItem(null);
+                    mainView.getComboStickGrip().setSelectedItem(null);
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(mainView, "Try later!", "Warning", JOptionPane.WARNING_MESSAGE);
                 }
-                mainView.setColorFootball(true);
-                mainView.setAllEnabled(false);
             }
         });
 
@@ -159,22 +160,23 @@ public class Controller {
                     if(sportFlag == 1){
                         database.setAllPlayerList(database.getAllSoccersList());
                         mainView.getLabelHeader().setText("Statistic soccer");
-                        mainView.getComboStickGrip().setSelectedItem(null);
+                        mainView.setAllEnabledFH(false);
                     }
                     else if(sportFlag == 2){
                         database.setAllPlayerList(database.getAllHockeyPlsList());
                         mainView.getLabelHeader().setText("Statistic hockey player");
+                        mainView.setAllEnabledFH(false);
                     }
                     else if(sportFlag == 3){
                         database.setAllPlayerList(database.getAllBasketPlsList());
                         mainView.getLabelHeader().setText("Statistic basketball player");
-                        mainView.getComboStickGrip().setSelectedItem(null);
+                        mainView.setAllEnabledB(false);
                     }
+                    mainView.getComboRole().setSelectedItem(null);
+                    mainView.getComboStickGrip().setSelectedItem(null);
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(mainView, "Try later!", "Warning", JOptionPane.WARNING_MESSAGE);
                 }
-                mainView.setColorFootball(true);
-                mainView.setAllEnabled(false);
             }
         });
 
@@ -182,7 +184,6 @@ public class Controller {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 mainView.clearAll();
-                mainView.getComboStickGrip().setSelectedItem(null);
                 sportFlag = 1;
                 if(modeFlag){
                     mainView.getLabelHeader().setText("Add soccer");
@@ -193,11 +194,13 @@ public class Controller {
                 else{
                     mainView.getLabelHeader().setText("Statistic soccer");
                     mainView.getButton().setEnabled(false);
-                    mainView.setAllEnabled(false);
+                    mainView.setAllEnabledFH(false);
                 }
                 try{
                     database.getAllPlayerList().clear();
                     database.setAllPlayerList(database.getAllSoccersList());
+                    mainView.getComboRole().setSelectedItem(null);
+                    mainView.getComboStickGrip().setSelectedItem(null);
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(mainView, "Try later!", "Warning", JOptionPane.WARNING_MESSAGE);
                 }
@@ -208,7 +211,6 @@ public class Controller {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 mainView.clearAll();
-                mainView.getComboStickGrip().setSelectedItem(null);
                 sportFlag = 1;
                 if(modeFlag){
                     mainView.getLabelHeader().setText("Add soccer");
@@ -219,11 +221,13 @@ public class Controller {
                 else{
                     mainView.getLabelHeader().setText("Statistic soccer");
                     mainView.getButton().setEnabled(false);
-                    mainView.setAllEnabled(false);
+                    mainView.setAllEnabledFH(false);
                 }
                 try{
                     database.getAllPlayerList().clear();
                     database.setAllPlayerList(database.getAllSoccersList());
+                    mainView.getComboRole().setSelectedItem(null);
+                    mainView.getComboStickGrip().setSelectedItem(null);
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(mainView, "Try later!", "Warning", JOptionPane.WARNING_MESSAGE);
                 }
@@ -244,11 +248,13 @@ public class Controller {
                 else{
                     mainView.getLabelHeader().setText("Statistic hockey player");
                     mainView.getButton().setEnabled(false);
-                    mainView.setAllEnabled(false);
+                    mainView.setAllEnabledFH(false);
                 }
                 try{
                     database.getAllPlayerList().clear();
                     database.setAllPlayerList(database.getAllHockeyPlsList());
+                    mainView.getComboRole().setSelectedItem(null);
+                    mainView.getComboStickGrip().setSelectedItem(null);
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(mainView, "Try later!", "Warning", JOptionPane.WARNING_MESSAGE);
                 }
@@ -269,11 +275,13 @@ public class Controller {
                 else{
                     mainView.getLabelHeader().setText("Statistic hockey player");
                     mainView.getButton().setEnabled(false);
-                    mainView.setAllEnabled(false);
+                    mainView.setAllEnabledFH(false);
                 }
                 try{
                     database.getAllPlayerList().clear();
                     database.setAllPlayerList(database.getAllHockeyPlsList());
+                    mainView.getComboRole().setSelectedItem(null);
+                    mainView.getComboStickGrip().setSelectedItem(null);
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(mainView, "Try later!", "Warning", JOptionPane.WARNING_MESSAGE);
                 }
@@ -284,7 +292,6 @@ public class Controller {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 mainView.clearAll();
-                mainView.getComboStickGrip().setSelectedItem(null);
                 sportFlag = 3;
                 if(modeFlag){
                     mainView.getLabelHeader().setText("Add basketball player");
@@ -295,11 +302,13 @@ public class Controller {
                 else{
                     mainView.getLabelHeader().setText("Statistic basketball player");
                     mainView.getButton().setEnabled(false);
-                    mainView.setAllEnabled(false);
+                    mainView.setAllEnabledB(false);
                 }
                 try{
                     database.getAllPlayerList().clear();
                     database.setAllPlayerList(database.getAllBasketPlsList());
+                    mainView.getComboRole().setSelectedItem(null);
+                    mainView.getComboStickGrip().setSelectedItem(null);
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(mainView, "Try later!", "Warning", JOptionPane.WARNING_MESSAGE);
                 }
@@ -310,7 +319,6 @@ public class Controller {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 mainView.clearAll();
-                mainView.getComboStickGrip().setSelectedItem(null);
                 sportFlag = 3;
                 if(modeFlag){
                     mainView.getLabelHeader().setText("Add basketball player");
@@ -321,11 +329,13 @@ public class Controller {
                 else{
                     mainView.getLabelHeader().setText("Statistic basketball player");
                     mainView.getButton().setEnabled(false);
-                    mainView.setAllEnabled(false);
+                    mainView.setAllEnabledB(false);
                 }
                 try{
                     database.getAllPlayerList().clear();
                     database.setAllPlayerList(database.getAllBasketPlsList());
+                    mainView.getComboRole().setSelectedItem(null);
+                    mainView.getComboStickGrip().setSelectedItem(null);
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(mainView, "Try later!", "Warning", JOptionPane.WARNING_MESSAGE);
                 }
@@ -595,6 +605,20 @@ public class Controller {
                 if(SwingUtilities.isLeftMouseButton(e)){
                     row = mainView.getPlayersTable().getSelectedRow();
                     cell = mainView.getPlayersTable().getModel().getValueAt(row,0).toString();
+                    if(modeFlag){
+                        mainView.getLabelHeader().setText("Update " + tempPl);
+                        mainView.getButton().setText("Update");
+                    }
+                    else{
+                        if(sportFlag == 1 || sportFlag == 2){
+                            mainView.setAllEnabledFH(false);
+                        }
+                        else if (sportFlag == 3){
+                            mainView.setAllEnabledB(false);
+                        }
+
+                        //mainView.getComboRole().setSelectedItem(null);
+                    }
                     try {
                         if(sportFlag == 1){
                             name = database.getSoccer(Integer.parseInt(cell)).getName();
@@ -667,13 +691,6 @@ public class Controller {
                             mainView.getTextFieldBlocks().setText(String.valueOf(blocks));
                         }
                     } catch (Exception ex) {}
-                    if(modeFlag){
-                        mainView.getLabelHeader().setText("Update " + tempPl);
-                        mainView.getButton().setText("Update");
-                    }
-                    else{
-                        mainView.setAllEnabled(false);
-                    }
                 }
             }
         });
@@ -725,6 +742,8 @@ public class Controller {
                         mainView.getButton().setText("Add");
                     }
                     else{
+                        mainView.getComboRole().setSelectedItem(null);
+                        mainView.getComboStickGrip().setSelectedItem(null);
                         mainView.clearAll();
                     }
                     mainView.getPlayersTable().clearSelection();
@@ -868,7 +887,7 @@ public class Controller {
         });
 
         mainView.addWindowListener(new WindowAdapter() {
-            /*@Override
+            @Override
             public void windowClosing(WindowEvent e) {
                 Object[] options = {"Yes", "No"};
                 int confirm = JOptionPane.showOptionDialog(mainView,"Close and exit?","Exit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, null);
@@ -876,7 +895,7 @@ public class Controller {
                     System.exit(0);
                     mainView.dispose();
                 }
-            }*/
+            }
         });
     }
 }

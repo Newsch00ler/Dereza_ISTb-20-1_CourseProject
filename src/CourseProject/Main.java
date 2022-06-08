@@ -20,6 +20,7 @@ public class Main {
             ex.printStackTrace();
         }
         View view = new View(database);
+        view.setLocationRelativeTo(null);
         Controller controller = new Controller();
         controller.execute(database, view);
     }

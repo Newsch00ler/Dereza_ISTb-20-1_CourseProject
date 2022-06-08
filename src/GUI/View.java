@@ -349,10 +349,9 @@ public class View extends JFrame {
         constraints.gridx = 1;
         constraints.gridy = 1;
         add(contRight, constraints);
-        setVisible(true);
-        this.setLocationRelativeTo(null);
         setResizable(false);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setVisible(true);
+        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         pack();
     }
 
@@ -621,7 +620,7 @@ public class View extends JFrame {
         playersTable.setBackground(colorBasket2);
     }
 
-    public void setAllEnabled(boolean b) {
+    public void setAllEnabledFH(boolean b) {
         menuBar.setBackground(colorStat);
         footballItem.setBackground(colorStat);
         hockeyItem.setBackground(colorStat);
@@ -661,10 +660,50 @@ public class View extends JFrame {
         textFieldBlocks.setEnabled(b);
     }
 
+    public void setAllEnabledB(boolean b) {
+        menuBar.setBackground(colorStat);
+        footballItem.setBackground(colorStat);
+        hockeyItem.setBackground(colorStat);
+        basketItem.setBackground(colorStat);
+        editModeItem.setBackground(colorStat);
+        viewModeItem.setBackground(colorStat);
+        helpInfo.setBackground(colorStat);
+        infoAboutProg.setBackground(colorStat);
+        playersTable.setBackground(colorStat);
+        textFieldName.setEnabled(b);
+        textFieldSurname.setEnabled(b);
+        comboRole.removeAllItems();
+        for(String i : itemsRolesB){
+            comboRole.addItem(i);
+        }
+        comboRole.setEnabled(b);
+        textFieldNumber.setEnabled(b);
+        textFieldTeam.setEnabled(b);
+        textFieldMins.setEnabled(b);
+        textFieldGoals.setEnabled(b);
+        textFieldAssists.setEnabled(b);
+        labelYC.setEnabled(!b);
+        textFieldYC.setEnabled(b);
+        labelRC.setEnabled(!b);
+        textFieldRC.setEnabled(b);
+        labelPsPerc.setEnabled(!b);
+        textFieldPsPerc.setEnabled(b);
+        labelStickGrip.setEnabled(!b);
+        comboStickGrip.setEnabled(b);
+        labelPenaltyTime.setEnabled(!b);
+        textFieldPenaltyTime.setEnabled(b);
+        labelPenaltyCount.setEnabled(!b);
+        textFieldPenaltyCount.setEnabled(b);
+        labelRebounds.setEnabled(!b);
+        textFieldRebounds.setEnabled(b);
+        labelBlocks.setEnabled(!b);
+        textFieldBlocks.setEnabled(b);
+    }
+
     public void clearAll(){
         getTextFieldName().setText(null);
         getTextFieldSurname().setText(null);
-        getComboRole().setSelectedIndex(0);
+        getComboRole().setSelectedItem(null);
         getTextFieldNumber().setText(null);
         getTextFieldTeam().setText(null);
         getTextFieldMins().setText(null);
@@ -673,7 +712,7 @@ public class View extends JFrame {
         getTextFieldYC().setText(null);
         getTextFieldRC().setText(null);
         getTextFieldPsPerc().setText(null);
-        getComboStickGrip().setSelectedIndex(0);
+        getComboStickGrip().setSelectedItem(null);
         getTextFieldPenaltyTime().setText(null);
         getTextFieldPenaltyCount().setText(null);
         getTextFieldRebounds().setText(null);
