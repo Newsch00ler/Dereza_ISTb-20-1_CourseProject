@@ -59,19 +59,19 @@ public class Controller {
                         database.setAllPlayerList(database.getAllSoccersList());
                         mainView.getLabelHeader().setText("Add soccer");
                         mainView.setFootballEnabled(true);
-                        mainView.setColorFootball(true);
+                        mainView.setColorFootball();
                     }
                     else if(sportFlag == 2){
                         database.setAllPlayerList(database.getAllHockeyPlsList());
                         mainView.getLabelHeader().setText("Add hockey player");
                         mainView.setHockeyEnabled(true);
-                        mainView.setColorHockey(true);
+                        mainView.setColorHockey();
                     }
                     else if(sportFlag == 3){
                         database.setAllPlayerList(database.getAllBasketPlsList());
                         mainView.getLabelHeader().setText("Add basketball player");
                         mainView.setBasketEnabled(true);
-                        mainView.setColorBasket(true);
+                        mainView.setColorBasket();
                     }
                     mainView.getComboRole().setSelectedItem(null);
                     mainView.getComboStickGrip().setSelectedItem(null);
@@ -94,19 +94,19 @@ public class Controller {
                         database.setAllPlayerList(database.getAllSoccersList());
                         mainView.getLabelHeader().setText("Add soccer");
                         mainView.setFootballEnabled(true);
-                        mainView.setColorFootball(true);
+                        mainView.setColorFootball();
                     }
                     else if(sportFlag == 2){
                         database.setAllPlayerList(database.getAllHockeyPlsList());
                         mainView.getLabelHeader().setText("Add hockey player");
                         mainView.setHockeyEnabled(true);
-                        mainView.setColorHockey(true);
+                        mainView.setColorHockey();
                     }
                     else if(sportFlag == 3){
                         database.setAllPlayerList(database.getAllBasketPlsList());
                         mainView.getLabelHeader().setText("Add basketball player");
                         mainView.setBasketEnabled(true);
-                        mainView.setColorBasket(true);
+                        mainView.setColorBasket();
                     }
                     mainView.getComboRole().setSelectedItem(null);
                     mainView.getComboStickGrip().setSelectedItem(null);
@@ -189,7 +189,7 @@ public class Controller {
                     mainView.getLabelHeader().setText("Add soccer");
                     mainView.getButton().setEnabled(true);
                     mainView.setFootballEnabled(true);
-                    mainView.setColorFootball(true);
+                    mainView.setColorFootball();
                 }
                 else{
                     mainView.getLabelHeader().setText("Statistic soccer");
@@ -216,7 +216,7 @@ public class Controller {
                     mainView.getLabelHeader().setText("Add soccer");
                     mainView.getButton().setEnabled(true);
                     mainView.setFootballEnabled(true);
-                    mainView.setColorFootball(true);
+                    mainView.setColorFootball();
                 }
                 else{
                     mainView.getLabelHeader().setText("Statistic soccer");
@@ -243,7 +243,7 @@ public class Controller {
                     mainView.getLabelHeader().setText("Add hockey player");
                     mainView.getButton().setEnabled(true);
                     mainView.setHockeyEnabled(true);
-                    mainView.setColorHockey(true);
+                    mainView.setColorHockey();
                 }
                 else{
                     mainView.getLabelHeader().setText("Statistic hockey player");
@@ -270,7 +270,7 @@ public class Controller {
                     mainView.getLabelHeader().setText("Add hockey player");
                     mainView.getButton().setEnabled(true);
                     mainView.setHockeyEnabled(true);
-                    mainView.setColorHockey(true);
+                    mainView.setColorHockey();
                 }
                 else{
                     mainView.getLabelHeader().setText("Statistic hockey player");
@@ -297,7 +297,7 @@ public class Controller {
                     mainView.getLabelHeader().setText("Add basketball player");
                     mainView.getButton().setEnabled(true);
                     mainView.setBasketEnabled(true);
-                    mainView.setColorBasket(true);
+                    mainView.setColorBasket();
                 }
                 else{
                     mainView.getLabelHeader().setText("Statistic basketball player");
@@ -324,7 +324,7 @@ public class Controller {
                     mainView.getLabelHeader().setText("Add basketball player");
                     mainView.getButton().setEnabled(true);
                     mainView.setBasketEnabled(true);
-                    mainView.setColorBasket(true);
+                    mainView.setColorBasket();
                 }
                 else{
                     mainView.getLabelHeader().setText("Statistic basketball player");

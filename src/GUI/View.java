@@ -31,7 +31,6 @@ public class View extends JFrame {
     private JMenuItem helpInfo;
     private JMenuItem infoAboutProg;
     private JPanel panelTop;
-    private Container contCenter;
     private Container contRight;
     private Container contInput;
     private JPopupMenu popupEdit;
@@ -186,8 +185,6 @@ public class View extends JFrame {
         panelTop.add(textFieldFind);
         panelTop.setAlignmentX(0.5F);
 
-        contCenter = new Container();
-        contCenter.setLayout(new BoxLayout(contCenter,BoxLayout.PAGE_AXIS));
         tableModel = new TableModel(database);
         playersTable = new JTable(tableModel){
             @Override
@@ -235,9 +232,8 @@ public class View extends JFrame {
         renderer.setHorizontalAlignment(SwingConstants.CENTER);
         playersTable.setBackground(colorFootball2);
         scrollPane = new JScrollPane(playersTable);
-        contCenter.setMaximumSize(new Dimension(600, 450));
-        contCenter.setPreferredSize(new Dimension(600, 450));
-        contCenter.add(scrollPane);
+        scrollPane.setMaximumSize(new Dimension(600, 450));
+        scrollPane.setPreferredSize(new Dimension(600, 450));
 
         labelHeader = new JLabel("Statistics");
         labelName = new JLabel("Name");
@@ -345,7 +341,7 @@ public class View extends JFrame {
         add(panelTop, constraints);
         constraints.gridx = 0;
         constraints.gridy = 1;
-        add(contCenter, constraints);
+        add(scrollPane, constraints);
         constraints.gridx = 1;
         constraints.gridy = 1;
         add(contRight, constraints);
@@ -521,7 +517,7 @@ public class View extends JFrame {
         textFieldBlocks.setEnabled(!b);
     }
 
-    public void setColorFootball(boolean b){
+    public void setColorFootball(){
         menuBar.setBackground(colorFootball1);
         footballItem.setBackground(colorFootball2);
         hockeyItem.setBackground(colorFootball2);
@@ -564,7 +560,7 @@ public class View extends JFrame {
         textFieldBlocks.setEnabled(!b);
     }
 
-    public void setColorHockey(boolean b) {
+    public void setColorHockey() {
         menuBar.setBackground(colorHockey1);
         footballItem.setBackground(colorHockey2);
         hockeyItem.setBackground(colorHockey2);
@@ -608,7 +604,7 @@ public class View extends JFrame {
         textFieldBlocks.setEnabled(b);
     }
 
-    public void setColorBasket(boolean b) {
+    public void setColorBasket() {
         menuBar.setBackground(colorBasket1);
         footballItem.setBackground(colorBasket2);
         hockeyItem.setBackground(colorBasket2);
